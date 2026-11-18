@@ -1,0 +1,2979 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ôn Tập Trắc Nghiệm Đường Lối Quốc Phòng & An Ninh</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    /* Custom subtle scrollbar for navigation panels */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    /* Highlight pulse when jumping to a question */
+    @keyframes highlightPulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45); }
+      70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+    }
+    .jump-highlight {
+      animation: highlightPulse 1.1s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Top Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-sm shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">Trắc Nghiệm Đường Lối QP-AN</h1>
+            <p class="text-xs text-slate-500">Ôn tập đầy đủ từ Bài 2 đến Bài 11</p>
+          </div>
+        </div>
+
+        <!-- Mobile Quick Nav Button & Progress Pill -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <div id="header-progress-badge" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 text-xs font-semibold text-slate-700">
+            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+            <span id="header-progress-text">Đã chọn: 0 / 0</span>
+          </div>
+          <button
+            id="mobile-nav-toggle"
+            type="button"
+            class="lg:hidden inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition"
+            aria-label="Mở bảng điều hướng câu hỏi"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+            <span>Bảng câu hỏi</span>
+          </button>
+          <button
+            id="header-submit-btn"
+            type="button"
+            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white text-xs sm:text-sm font-semibold shadow-sm transition"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Nộp bài</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chapter Filter Bar -->
+      <div class="pb-3 flex items-center gap-2 overflow-x-auto custom-scrollbar" id="chapter-filter-bar" role="tablist" aria-label="Bộ lọc bài học">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </div>
+
+    <!-- Thin Progress Bar -->
+    <div id="top-progress-track" class="w-full h-1.5 bg-slate-200 overflow-hidden">
+      <div id="top-progress-fill" class="h-full bg-gradient-to-r from-blue-600 to-emerald-500 transition-all duration-300" style="width: 0%"></div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <!-- Retry Mode Banner (Hidden by default) -->
+    <div id="retry-banner" class="hidden mb-5 p-4 rounded-2xl bg-amber-50 border border-amber-200 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </div>
+        <div>
+          <p class="text-sm font-bold text-amber-900" id="retry-banner-title">Chế độ làm lại các câu sai</p>
+          <p class="text-xs text-amber-700">Tập trung ôn luyện những câu bạn đã làm sai hoặc bỏ sót ở lượt trước.</p>
+        </div>
+      </div>
+      <button id="exit-retry-btn" type="button" class="px-3.5 py-2 rounded-xl bg-white border border-amber-300 hover:bg-amber-100 text-amber-900 text-xs font-semibold transition">
+        Quay lại đầy đủ bài
+      </button>
+    </div>
+
+    <!-- QUIZ VIEW -->
+    <div id="quiz-view" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <!-- Questions Column -->
+      <div class="lg:col-span-8 xl:col-span-9 space-y-5">
+        <!-- Chapter Info Card -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <span id="current-scope-badge" class="inline-block px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold mb-1.5">Tất cả các bài</span>
+            <h2 id="current-scope-title" class="text-base sm:text-lg font-bold text-slate-900">Toàn bộ câu hỏi ôn tập (Bài 2 – Bài 11)</h2>
+          </div>
+          <div class="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Chọn hết đáp án rồi bấm <strong>Nộp bài</strong> để xem kết quả</span>
+          </div>
+        </div>
+
+        <!-- Questions List Container -->
+        <div id="questions-container" class="space-y-4">
+          <!-- Questions rendered here -->
+        </div>
+
+        <!-- Bottom Submit Bar -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-wrap items-center justify-between gap-4">
+          <div class="text-sm text-slate-600">
+            Tiến độ hiện tại: <strong id="bottom-progress-text" class="text-slate-900">0 / 0 câu</strong>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <button
+              id="reset-quiz-btn"
+              type="button"
+              class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition"
+            >
+              Làm lại từ đầu
+            </button>
+            <button
+              id="bottom-submit-btn"
+              type="button"
+              class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white text-sm font-bold shadow-sm transition inline-flex items-center gap-2"
+            >
+              <span>Nộp bài &amp; Chấm điểm</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Sidebar Navigator -->
+      <aside class="hidden lg:block lg:col-span-4 xl:col-span-3 sticky top-32">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col max-h-[calc(100vh-9.5rem)]">
+          <div class="p-4 border-b border-slate-100">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-sm font-bold text-slate-900">Bảng điều hướng nhanh</h3>
+              <span id="sidebar-progress-percent" class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">0%</span>
+            </div>
+            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-3">
+              <div id="sidebar-progress-fill" class="h-full bg-blue-600 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <div class="flex items-center justify-between text-xs text-slate-500">
+              <span class="flex items-center gap-1.5">
+                <span class="w-3 h-3 rounded bg-blue-600 inline-block"></span>
+                Đã làm (<strong id="sidebar-answered-count" class="text-slate-700">0</strong>)
+              </span>
+              <span class="flex items-center gap-1.5">
+                <span class="w-3 h-3 rounded bg-slate-100 border border-slate-300 inline-block"></span>
+                Chưa làm (<strong id="sidebar-unanswered-count" class="text-slate-700">0</strong>)
+              </span>
+            </div>
+          </div>
+
+          <div id="desktop-nav-grid" class="p-4 grid grid-cols-5 gap-1.5 overflow-y-auto custom-scrollbar flex-1">
+            <!-- Quick nav buttons rendered here -->
+          </div>
+
+          <div class="p-4 border-t border-slate-100 bg-slate-50/70">
+            <button
+              id="sidebar-submit-btn"
+              type="button"
+              class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-sm transition"
+            >
+              Nộp bài ngay
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- RESULTS VIEW (Hidden by default) -->
+    <section id="results-view" class="hidden space-y-6">
+      <!-- Score Summary Card -->
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-900 p-6 sm:p-8 text-white">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <span class="inline-block px-3 py-1 rounded-full bg-white/15 text-emerald-200 text-xs font-semibold mb-2" id="result-scope-label">Kết quả ôn tập</span>
+              <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight" id="result-headline">Hoàn thành bài làm!</h2>
+              <p class="text-slate-300 text-sm mt-1" id="result-subtext">Dưới đây là thống kê chi tiết và danh sách những câu bạn cần ôn lại.</p>
+            </div>
+            <div class="flex items-center gap-4 bg-white/10 backdrop-blur rounded-2xl p-4 sm:px-6 border border-white/15 shrink-0">
+              <div class="text-center">
+                <div class="text-3xl sm:text-4xl font-extrabold text-emerald-400" id="result-percentage">0%</div>
+                <div class="text-xs text-slate-300 font-medium mt-0.5">Tỷ lệ đúng</div>
+              </div>
+              <div class="w-px h-12 bg-white/20"></div>
+              <div class="text-center">
+                <div class="text-2xl sm:text-3xl font-extrabold text-white" id="result-score-fraction">0/0</div>
+                <div class="text-xs text-slate-300 font-medium mt-0.5">Số câu đúng</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="p-6 sm:p-8">
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+              <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Tổng số câu</p>
+              <p class="text-2xl font-extrabold text-slate-900 mt-1" id="stat-total">0</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+              <p class="text-xs font-semibold text-emerald-700 uppercase tracking-wide">Số câu đúng</p>
+              <p class="text-2xl font-extrabold text-emerald-700 mt-1" id="stat-correct">0</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200">
+              <p class="text-xs font-semibold text-rose-700 uppercase tracking-wide">Số câu sai</p>
+              <p class="text-2xl font-extrabold text-rose-700 mt-1" id="stat-wrong">0</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200">
+              <p class="text-xs font-semibold text-amber-700 uppercase tracking-wide">Chưa làm</p>
+              <p class="text-2xl font-extrabold text-amber-700 mt-1" id="stat-unanswered">0</p>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center gap-3">
+            <button
+              id="retry-wrong-btn"
+              type="button"
+              class="px-5 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold shadow-sm transition inline-flex items-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span id="retry-wrong-btn-text">Làm lại các câu sai</span>
+            </button>
+            <button
+              id="result-restart-btn"
+              type="button"
+              class="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold shadow-sm transition inline-flex items-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+              </svg>
+              <span>Làm lại từ đầu</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Wrong & Unanswered Questions List -->
+      <div class="space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <span class="w-2.5 h-6 rounded-full bg-rose-500 inline-block"></span>
+            <span id="wrong-list-heading">Chi tiết những câu làm sai &amp; chưa làm</span>
+          </h3>
+        </div>
+        <div id="wrong-questions-container" class="space-y-4">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Mobile Drawer for Quick Navigation -->
+  <div id="mobile-nav-drawer" class="fixed inset-0 z-50 hidden lg:hidden" role="dialog" aria-modal="true">
+    <div id="mobile-nav-backdrop" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity"></div>
+    <div class="fixed inset-y-0 right-0 w-full max-w-xs bg-white shadow-2xl flex flex-col">
+      <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900">Bảng điều hướng câu hỏi</h3>
+          <p id="mobile-drawer-progress" class="text-xs text-slate-500 mt-0.5">Đã chọn: 0 / 0</p>
+        </div>
+        <button id="mobile-nav-close" type="button" class="p-2 rounded-xl hover:bg-slate-100 text-slate-500" aria-label="Đóng">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-xs text-slate-600">
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-blue-600 inline-block"></span> Đã làm</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-white border border-slate-300 inline-block"></span> Chưa làm</span>
+      </div>
+      <div id="mobile-nav-grid" class="p-4 grid grid-cols-5 gap-2 overflow-y-auto custom-scrollbar flex-1">
+        <!-- Mobile nav buttons -->
+      </div>
+      <div class="p-4 border-t border-slate-200 bg-slate-50">
+        <button id="mobile-drawer-submit-btn" type="button" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-sm transition">
+          Nộp bài &amp; Chấm điểm
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Confirmation Modal (No native alert/confirm) -->
+  <div id="confirm-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true">
+    <div id="confirm-modal-backdrop" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-2xl shadow-xl border border-slate-200 max-w-md w-full p-6 z-10">
+      <div class="flex items-start gap-4">
+        <div class="w-11 h-11 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <div>
+          <h3 id="confirm-modal-title" class="text-base font-bold text-slate-900">Xác nhận nộp bài</h3>
+          <p id="confirm-modal-message" class="text-sm text-slate-600 mt-1.5 leading-relaxed"></p>
+        </div>
+      </div>
+      <div class="mt-6 flex items-center justify-end gap-3">
+        <button id="confirm-modal-cancel" type="button" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition">
+          Tiếp tục làm bài
+        </button>
+        <button id="confirm-modal-ok" type="button" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-sm transition">
+          Vẫn nộp bài
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-auto py-6 text-center text-xs text-slate-400 border-t border-slate-200 bg-white">
+    Ứng dụng ôn tập trắc nghiệm Đường lối Quốc phòng &amp; An ninh • 196 câu hỏi (Bài 2 – Bài 11)
+  </footer>
+
+  <script>
+    // =========================================================================
+    // DỮ LIỆU ĐẦY ĐỦ 196 CÂU HỎI (BÀI 2 ĐẾN BÀI 11)
+    // =========================================================================
+    const CHAPTERS = [
+      { id: 'all', shortName: 'Tất cả', fullName: 'Toàn bộ câu hỏi ôn tập (Bài 2 – Bài 11)' },
+      { id: 2, shortName: 'Bài 2', fullName: 'BÀI 2: QUAN ĐIỂM CƠ BẢN CỦA CHỦ NGHĨA MÁC – LÊNIN, TƯ TƯỞNG HỒ CHÍ MINH VỀ CHIẾN TRANH, QUÂN ĐỘI VÀ BẢO VỆ TỔ QUỐC' },
+      { id: 3, shortName: 'Bài 3', fullName: 'BÀI 3: XÂY DỰNG NỀN QUỐC PHÒNG TOÀN DÂN, AN NINH NHÂN DÂN BẢO VỆ TỔ QUỐC VIỆT NAM XÃ HỘI CHỦ NGHĨA' },
+      { id: 4, shortName: 'Bài 4', fullName: 'BÀI 4: CHIẾN TRANH NHÂN DÂN BẢO VỆ TỔ QUỐC VIỆT NAM XÃ HỘI CHỦ NGHĨA' },
+      { id: 5, shortName: 'Bài 5', fullName: 'BÀI 5: XÂY DỰNG LỰC LƯỢNG VŨ TRANG NHÂN DÂN' },
+      { id: 6, shortName: 'Bài 6', fullName: 'BÀI 6: KẾT HỢP PHÁT TRIỂN KINH TẾ, XÃ HỘI VỚI TĂNG CƯỜNG QUỐC PHÒNG, AN NINH VÀ ĐỐI NGOẠI' },
+      { id: 7, shortName: 'Bài 7', fullName: 'BÀI 7: NHỮNG VẤN ĐỀ CƠ BẢN VỀ LỊCH SỬ NGHỆ THUẬT QUÂN SỰ VIỆT NAM' },
+      { id: 8, shortName: 'Bài 8', fullName: 'BÀI 8: XÂY DỰNG VÀ BẢO VỆ CHỦ QUYỀN BIỂN, ĐẢO, BIÊN GIỚI QUỐC GIA TRONG TÌNH HÌNH MỚI' },
+      { id: 9, shortName: 'Bài 9', fullName: 'BÀI 9: DÂN QUÂN TỰ VỆ VÀ DỰ BỊ ĐỘNG VIÊN' },
+      { id: 10, shortName: 'Bài 10', fullName: 'BÀI 10: XÂY DỰNG PHONG TRÀO TOÀN DÂN BẢO VỆ AN NINH TỔ QUỐC' },
+      { id: 11, shortName: 'Bài 11', fullName: 'BÀI 11: NHỮNG VẤN ĐỀ CƠ BẢN VỀ BẢO VỆ AN NINH QUỐC GIA VÀ BẢO ĐẢM TRẬT TỰ AN TOÀN XÃ HỘI' },
+    ];
+
+    const ALL_QUESTIONS = [
+      // ==================== BÀI 2 (21 câu) ====================
+      {
+        id: '2.1', chapter: 2,
+        question: 'Theo quan điểm chủ nghĩa Mác- Lênin về chiến tranh thì bản chất chiến tranh ngày nay:',
+        options: [
+          'Có sự thay đổi phù hợp với sự phát triển của khoa học và kỹ thuật quân sự',
+          'Có nhiều sự thay đổi về chất',
+          'Không thay đổi'
+        ],
+        answer: 2
+      },
+      {
+        id: '2.2', chapter: 2,
+        question: 'Theo quan điểm của chủ nghĩa Mác – Lênin, nguồn gốc nảy sinh chiến tranh là:',
+        options: [
+          'Có 3 nguồn gốc (nguồn gốc kinh tế, nguồn gốc chính trị và nguồn gốc xã hội).',
+          'Có 2 nguồn gốc (nguồn gốc kinh tế và nguồn gốc chính trị)',
+          'Có 2 nguồn gốc (nguồn gốc kinh tế và nguồn gốc xã hội)'
+        ],
+        answer: 2
+      },
+      {
+        id: '2.3', chapter: 2,
+        question: 'Theo quan điểm của chủ nghĩa Mác- Lênin đặc trưng cơ bản của chiến tranh là:',
+        options: [
+          'Là hành vi bạo lực',
+          'Là sự huy động sức mạnh đến tột cùng, không hạn độ của các bên tham chiến',
+          'Là bạo lực vũ trang có tổ chức'
+        ],
+        answer: 2
+      },
+      {
+        id: '2.4', chapter: 2,
+        question: 'Sức mạnh bảo vệ Tổ quốc theo tư tưởng Hồ Chí Minh:',
+        options: [
+          'Là sức mạnh của cả dân tộc, cả nước kết hợp với sức mạnh của thời đại',
+          'Là sức mạnh của cả dân tộc, của giai cấp công nhân dưới sự lãnh đạo của Đảng',
+          'Là trách nhiệm và nghĩa vụ của cả dân tộc của giai cấp công nhân và nhân dân lao động'
+        ],
+        answer: 0
+      },
+      {
+        id: '2.5', chapter: 2,
+        question: 'Theo quan điểm chủ nghĩa Mác-Lênin, nguồn gốc trực tiếp dẫn đến chiến tranh là:',
+        options: [
+          'Trong xã hội xuất hiện giai cấp và đối kháng giai cấp',
+          'Trong xã hội xuất hiện chế độ tư hữu về tư liệu sản xuất và nhà nước',
+          'Trong xã hội xuất hiện mâu thuẫn lợi ích'
+        ],
+        answer: 0
+      },
+      {
+        id: '2.6', chapter: 2,
+        question: 'Phân tích tính chất chính trị xã hội của chiến tranh Hồ Chí Minh đã chia chiến tranh thành:',
+        options: [
+          'Chiến tranh cách mạng và chiến tranh phản cách mạng',
+          'Chiến tranh tiến bộ và chiến tranh phản tiến bộ',
+          'Chiến tranh chính nghĩa và chiến tranh phi nghĩa'
+        ],
+        answer: 2
+      },
+      {
+        id: '2.7', chapter: 2,
+        question: '“Bản chất giai cấp quyết định mục tiêu chiến đấu, nhiệm vụ chính trị và chức năng xã hội của quân đội” thể hiện:',
+        options: [
+          'Bản chất giai cấp của quân đội về mặt chính trị',
+          'Bản chất giai cấp của quân đội về mặt tư tưởng, tổ chức',
+          'Bản chất giai cấp của quân đội về mặt tổ chức'
+        ],
+        answer: 0
+      },
+      {
+        id: '2.8', chapter: 2,
+        question: 'Theo quan điểm của chủ nghĩa Mác - Lênin về bản chất giai cấp của quân đội phụ thuộc vào:',
+        options: [
+          'Bản chất của các nhà nước đã tổ chức ra quân đội đó.',
+          'Bản chất của các giai cấp và của nhà nước đã tổ chức ra quân đội đó.',
+          'Bản chất của giai cấp công nông và của nhà nước đã tổ chức ra quân đội đó.'
+        ],
+        answer: 0
+      },
+      {
+        id: '2.9', chapter: 2,
+        question: 'Bảo vệ Tổ quốc XHCN theo quan điểm chủ nghĩa Mác- Lênin:',
+        options: [
+          'Là sức mạnh của cả dân tộc, cả nước kết hợp với sức mạnh thời đại',
+          'Là sức mạnh của cả dân tộc, của giai cấp công nhân',
+          'Là trách nhiệm và nghĩa vụ của cả dân tộc của giai cấp công nhân và nhân dân lao động'
+        ],
+        answer: 2
+      },
+      {
+        id: '2.10', chapter: 2,
+        question: 'Theo tư tưởng Hồ Chí Minh về chiến tranh, tiêu chí để nhận biết một cuộc chiến tranh chính nghĩa là:',
+        options: [
+          'Là một cuộc chiến tranh phòng ngự',
+          'Là một cuộc chiến tranh bảo vệ lợi ích chính đáng của dân tộc',
+          'Là một cuộc chiến tranh bảo vệ lợi ích của giai cấp thống trị'
+        ],
+        answer: 1
+      },
+      {
+        id: '2.11', chapter: 2,
+        question: 'Theo tư tưởng Hồ Chí Minh, Quân đội nhân dân Việt Nam có những chức năng:',
+        options: [
+          'Chiến đấu và sẵn sàng chiến đấu.',
+          'Chiến đấu, lao động sản xuất.',
+          'Chiến đấu, công tác, lao động sản xuất.'
+        ],
+        answer: 2
+      },
+      {
+        id: '2.12', chapter: 2,
+        question: 'Nguồn gốc nảy sinh chiến tranh theo quan điểm của chủ nghĩa Mác- Lênin:',
+        options: [
+          'Do xuất hiện của cải dư thừa',
+          'Do xuất hiện sự chiếm hữu tư nhân về tư liệu sản xuất, giai cấp và đối kháng giai cấp',
+          'Do định mệnh của con người và xã hội loài người'
+        ],
+        answer: 1
+      },
+      {
+        id: '2.13', chapter: 2,
+        question: 'Theo quan điểm Chủ nghĩa Mác Lênin về bản chất giai cấp của quân đội:',
+        options: [
+          'Bản chất giai cấp của quân đội phụ thuộc vào bản chất giai cấp của nhà nước sinh ra nó',
+          'Là công cụ bạo lực vũ trang của toàn xã hội, bảo vệ lợi ích xã hội.',
+          'Bản chất giai cấp của quân đội là bền vững, bất biến, không thay đổi'
+        ],
+        answer: 0
+      },
+      {
+        id: '2.14', chapter: 2,
+        question: 'Tư tưởng Hồ Chí Minh về sức mạnh bảo vệ Tổ quốc:',
+        options: [
+          'Là sức mạnh của cả dân tộc, kết hợp với sức mạnh của nền quốc phòng toàn dân.',
+          'Là sức mạnh tổng hợp của cả dân tộc, cả nước kết hợp với sức mạnh thời đại.',
+          'Là sức mạnh của toàn dân, lấy lực lượng vũ trang làm nòng cốt.'
+        ],
+        answer: 1
+      },
+      {
+        id: '2.15', chapter: 2,
+        question: 'Tư tưởng Hồ Chí Minh xác định thái độ đối với chiến tranh là:',
+        options: [
+          'Phản đối tất cả các cuộc chiến tranh.',
+          'Phản đối các cuộc chiến tranh chống áp bức, nô dịch.',
+          'Ủng hộ chiến tranh chính nghĩa, phản đối chiến tranh phi nghĩa.'
+        ],
+        answer: 2
+      },
+      {
+        id: '2.16', chapter: 2,
+        question: 'Theo quan điểm chủ nghĩa Mác Lênin, bản chất chiến tranh là:',
+        options: [
+          '“Là sự kế tục của chính trị bằng những biện pháp khác” (cụ thể là bằng bạo lực)',
+          'Chiến tranh làm gián đoạn chính trị bằng biện pháp bạo lực',
+          'Chiến tranh quyết định mục đích chính trị bằng biện pháp bạo lực'
+        ],
+        answer: 0
+      },
+      {
+        id: '2.17', chapter: 2,
+        question: 'Quan điểm đầu tiên của chủ nghĩa Mác - Lênin về bảo vệ Tổ quốc xã hội chủ nghĩa:',
+        options: [
+          'Bảo vệ tổ quốc xã hội chủ nghĩa là nhiệm vụ thường xuyên liên tục.',
+          'Bảo vệ tổ quốc xã hội chủ nghĩa là tất yếu khách quan.',
+          'Bảo vệ tổ quốc xã hội chủ nghĩa là nhiệm vụ trọng yếu của toàn dân.'
+        ],
+        answer: 1
+      },
+      {
+        id: '2.18', chapter: 2,
+        question: 'Nguyên tắc quan trọng nhất về xây dựng quân đội kiểu mới của Lênin là:',
+        options: [
+          'Sự lãnh đạo của Đảng Cộng sản đối với quân đội.',
+          'Tính kỷ luật cao là yếu tố quyết định sức mạnh quân đội.',
+          'Quân đội chính quy, hiện đại, trung thành với giai cấp công nhân.'
+        ],
+        answer: 0
+      },
+      {
+        id: '2.19', chapter: 2,
+        question: 'Theo quan điểm của Lênin, “bảo vệ Tổ quốc XHCN”:',
+        options: [
+          'Là trách nhiệm và nghĩa vụ của toàn dân tộc, của giai cấp công nhân và nhân dân lao động',
+          'Là trách nhiệm của lực lượng vũ trang (quân đội, công an)',
+          'Là chiến tranh nhân dân thực hiện toàn dân đánh giặc'
+        ],
+        answer: 0
+      },
+      {
+        id: '2.20', chapter: 2,
+        question: 'Theo quan điểm của chủ nghĩa Mác- Lênin đặc trưng cơ bản của chiến tranh là:',
+        options: [
+          'Là hành vi bạo lực',
+          'Là sự huy động sức mạnh đến tột cùng, không hạn độ của các bên tham chiến',
+          'Là bạo lực vũ trang có tổ chức'
+        ],
+        answer: 2
+      },
+      {
+        id: '2.21', chapter: 2,
+        question: 'Lênin khẳng định yếu tố giữ vai trò quyết định đến sức mạnh chiến đấu của quân đội:',
+        options: [
+          'Quân số, tổ chức, cơ cấu biên chế.',
+          'Chất lượng vũ khí, trang bị kỹ thuật.',
+          'Chính trị tinh thần.'
+        ],
+        answer: 2
+      },
+
+      // ==================== BÀI 3 (23 câu) ====================
+      {
+        id: '3.1', chapter: 3,
+        question: 'Nội dung xây dựng thế trận QPTD – ANND là:',
+        options: [
+          'Phân vùng chiến lược về QP, AN kết hợp với xây dựng hậu phương chiến lược',
+          'Phân vùng chiến lược cho lực lượng bộ đội chủ lực kết hợp xây dựng hậu phương vững mạnh',
+          'Phân vùng chiến lược cho bộ đội chủ lực và bộ đội địa phương, kết hợp xây dựng hậu phương vững mạnh'
+        ],
+        answer: 0
+      },
+      {
+        id: '3.2', chapter: 3,
+        question: 'Xây dựng tiềm lực quân sự an ninh cần tập trung vào:',
+        options: [
+          'Xây dựng lực lượng vũ trang vững mạnh toàn diện về mọi mặt',
+          'Xây dựng lực lượng vũ trang nhân dân vững mạnh toàn diện về mọi mặt',
+          'Xây dựng lực lượng quân đội, công an nhân dân vững mạnh toàn diện về mọi mặt'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.3', chapter: 3,
+        question: 'Tiềm lực khoa học, công nghệ của nền quốc phòng toàn dân, an ninh nhân dân:',
+        options: [
+          'Là khả năng về khoa học và công nghệ của quốc gia trên tất cả các lĩnh vực đời sống xã hội',
+          'Là khả năng về khoa học và công nghệ của quốc gia có thể khai thác, huy động để phục vụ cho QP-AN',
+          'Là khả năng về khoa học và công nghệ của lực lượng vũ trang nhân dân Việt Nam'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.4', chapter: 3,
+        question: 'Tiềm lực quân sự an ninh là:',
+        options: [
+          'Là khả năng về vật chất và tinh thần của xã hội có thể huy động tạo thành sức mạnh phục vụ cho nhiệm vụ quân sự, an ninh và cho chiến tranh',
+          'Là sức mạnh của lực lượng vũ trang nhân dân được huy động để bảo vệ Tổ quốc Việt Nam xã hội chủ nghĩa.',
+          'Là sức mạnh của lực lượng vũ trang nhân dân, đặc biệt là sức mạnh của quân đội nhân dân'
+        ],
+        answer: 0
+      },
+      {
+        id: '3.5', chapter: 3,
+        question: 'Vai trò tiềm lực quân sự an ninh trong nền QPTD – ANND là:',
+        options: [
+          'Tiềm lực quân sự an ninh là nhân tố cơ bản, biểu hiện tập trung, trực tiếp sức mạnh nền QPTD - ANND',
+          'Tiềm lực quân sự an ninh là nhân tố cơ bản quyết định sức mạnh nền QPTD - ANND',
+          'Tiềm lực quân sự an ninh là nhân tố quan trọng nhất tạo nên sức mạnh nền QPTD - ANND'
+        ],
+        answer: 0
+      },
+      {
+        id: '3.6', chapter: 3,
+        question: 'Xây dựng lực lượng QP – AN là xây dựng:',
+        options: [
+          'Lực lượng thường trực và lực lượng dự bị động viên',
+          'Bộ đội chủ lực, bộ đội địa phương, bộ đội biên phòng, bộ đội cảnh sát biển',
+          'Lực lượng chính trị và lực lượng vũ trang nhân dân'
+        ],
+        answer: 2
+      },
+      {
+        id: '3.7', chapter: 3,
+        question: 'Thế trận quốc phòng, an ninh:',
+        options: [
+          'Là sự tổ chức, bố trí lực lượng vũ trang nhân dân theo yêu cầu của quốc phòng, an ninh',
+          'Là sự tổ chức, bố trí lực lượng, tiềm lực mọi mặt của đất nước và của toàn dân theo yêu cầu của quốc phòng, an ninh',
+          'Là sự tổ chức, bố trí lực lượng vũ trang theo yêu cầu của chiến tranh nhân dân BVTQ'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.8', chapter: 3,
+        question: 'Tính toàn diện trong xây dựng nền quốc phòng toàn dân, an ninh nhân dân là:',
+        options: [
+          'Xây dựng nền QP – AN trên cơ sở xây dựng mọi tiềm lực của quốc gia.',
+          'Mọi người dân phải tham gia xây dựng lực lượng vũ trang.',
+          'Tập trung xây dựng các tiềm lực: kinh tế, chính trị tinh thần, khoa học công nghệ, quân sự - an ninh.'
+        ],
+        answer: 0
+      },
+      {
+        id: '3.9', chapter: 3,
+        question: 'Tiềm lực kinh tế của nền quốc phòng toàn dân, an ninh nhân dân:',
+        options: [
+          'Là khả năng về kinh tế của đất nước trên tất cả các lĩnh vực đời sống xã hội',
+          'Là khả năng về kinh tế của đất nước có thể khai thác, huy động nhằm phục vụ cho quốc phòng, an ninh',
+          'Là khả năng về kinh tế của đất nước có thể khai thác, huy động nhằm phục vụ cho đời sống dân sinh'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.10', chapter: 3,
+        question: 'Nội dung xây dựng thế trận QPTD – ANND là:',
+        options: [
+          'Phân vùng chiến lược về QP, AN kết hợp với xây dựng hậu phương chiến lược',
+          'Xây dựng khu vực phòng thủ tỉnh (thành phố) tạo nền tảng của thế trận QPTD- ANND',
+          'Tất cả các phương án trên'
+        ],
+        answer: 2
+      },
+      {
+        id: '3.11', chapter: 3,
+        question: 'Tiềm lực kinh tế là gì?',
+        options: [
+          'Là khả năng về kinh tế của đất nước có thể khai thác huy động nhằm phục vụ cho quốc phòng, an ninh',
+          'Là toàn bộ khả năng về nhân lực, vật lực và tài lực của toàn xã hội',
+          'Là khả năng huy động về kinh tế của các tổ chức trong nước, kể cả các tổ chức có vốn đầu tư nước ngoài'
+        ],
+        answer: 0
+      },
+      {
+        id: '3.12', chapter: 3,
+        question: 'Tiềm lực chính trị, tinh thần là:',
+        options: [
+          'Nhân tố cơ bản tạo nên sức mạnh của QP, AN.',
+          'Khả năng về chính trị, tinh thần của xã hội có thể huy động tạo nên sức mạnh để thực hiện nhiệm vụ QP, AN.',
+          'Nhân tố hàng đầu trong xây dựng tiềm lực QP, AN.'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.13', chapter: 3,
+        question: 'Lực lượng của nền Quốc phòng toàn dân, an ninh nhân dân bao gồm:',
+        options: [
+          'Lực lượng toàn dân, lực lượng vũ trang nhân dân.',
+          'Lực lượng quân đội nhân dân và công an nhân dân.',
+          'Lực lượng toàn dân và dân quân tự vệ.'
+        ],
+        answer: 0
+      },
+      {
+        id: '3.14', chapter: 3,
+        question: 'Xây dựng tiềm lực khoa học công nghệ của nền quốc phòng toàn dân, an ninh nhân dân:',
+        options: [
+          'Tạo nên khả năng về vũ khí trang bị kỹ thuật để phòng thủ đất nước.',
+          'Tạo nên khả năng về khoa học công nghệ của quốc gia để phục vụ quốc phòng, an ninh.',
+          'Tạo nên khả năng để huy động đội ngũ cán bộ khoa học kỹ thuật phục vụ quốc phòng, an ninh.'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.15', chapter: 3,
+        question: 'Thế trận quốc phòng toàn dân, an ninh nhân dân là:',
+        options: [
+          'Sự tổ chức, bố trí lực lượng, tiềm lực mọi mặt của đất nước trên toàn bộ lãnh thổ.',
+          'Sự bố trí con người và vũ khí trang bị phù hợp trên toàn bộ lãnh thổ.',
+          'Sự bố trí thế trận sẵn sàng tác chiến trên một địa bàn chiến lược.'
+        ],
+        answer: 0
+      },
+      {
+        id: '3.16', chapter: 3,
+        question: 'Đặc trưng đầu tiên của nền quốc phòng toàn dân, an ninh nhân dân:',
+        options: [
+          'Mang tính chất tự vệ do giai cấp công nhân tiến hành.',
+          'Chỉ có mục đích duy nhất là tự vệ chính đáng.',
+          'Được xây dựng hiện đại có sức mạnh tổng hợp.'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.17', chapter: 3,
+        question: 'Tiềm lực quốc phòng, an ninh được thể hiện ở tất cả các lĩnh vực đời sống xã hội nhưng tập trung ở:',
+        options: [
+          'Tiềm lực chính trị, tinh thần; khoa học và công nghệ; kinh tế; quân sự, an ninh.',
+          'Tiềm lực chính trị, tinh thần; đối ngoại, khoa học và công nghệ.',
+          'Tiềm lực công nghiệp quốc phòng, khoa học quân sự.'
+        ],
+        answer: 0
+      },
+      {
+        id: '3.18', chapter: 3,
+        question: 'Đảng ta khẳng định vị trí của nền quốc phòng toàn dân, an ninh nhân dân:',
+        options: [
+          'Chỉ coi trọng quốc phòng, an ninh khi đất nước có chiến tranh.',
+          'Luôn luôn coi trọng quốc phòng, an ninh, coi đó là nhiệm vụ chiến lược gắn bó chặt chẽ.',
+          'Luôn luôn coi trọng quốc phòng, an ninh, coi đó là nền tảng để xây dựng đất nước.'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.19', chapter: 3,
+        question: 'Đặc trưng mang tính truyền thống của nền quốc phòng toàn dân, an ninh nhân dân:',
+        options: [
+          'Nền quốc phòng, an ninh do nhân dân xây dựng, mang tính chất nhân dân sâu sắc.',
+          'Nền quốc phòng, an ninh vì dân, của dân và toàn thể nhân dân tiến hành.',
+          'Nền quốc phòng, an ninh mang tính giai cấp, dân tộc sâu sắc.'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.20', chapter: 3,
+        question: 'Xây dựng tiềm lực quân sự an ninh cần tập trung vào:',
+        options: [
+          'Xây dựng lực lượng vũ trang vững mạnh toàn diện về mọi mặt',
+          'Xây dựng lực lượng vũ trang nhân dân vững mạnh toàn diện về mọi mặt',
+          'Xây dựng lực lượng quân đội, công an nhân dân vững mạnh toàn diện về mọi mặt'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.21', chapter: 3,
+        question: 'Tiềm lực khoa học, công nghệ của nền quốc phòng toàn dân, an ninh nhân dân:',
+        options: [
+          'Là khả năng về khoa học và công nghệ của quốc gia trên tất cả các lĩnh vực đời sống xã hội',
+          'Là khả năng về khoa học và công nghệ của quốc gia có thể khai thác, huy động để phục vụ cho QP-AN',
+          'Là khả năng về khoa học và công nghệ của lực lượng vũ trang nhân dân Việt Nam'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.22', chapter: 3,
+        question: 'Thế trận quốc phòng, an ninh:',
+        options: [
+          'Là sự tổ chức, bố trí lực lượng vũ trang nhân dân theo yêu cầu của quốc phòng, an ninh',
+          'Là sự tổ chức, bố trí lực lượng, tiềm lực mọi mặt của đất nước và của toàn dân theo yêu cầu của quốc phòng, an ninh',
+          'Là sự tổ chức, bố trí lực lượng vũ trang theo yêu cầu của chiến tranh nhân dân BVTQ'
+        ],
+        answer: 1
+      },
+      {
+        id: '3.23', chapter: 3,
+        question: 'Tính toàn diện trong xây dựng nền quốc phòng toàn dân, an ninh nhân dân là:',
+        options: [
+          'Xây dựng nền QP – AN trên cơ sở xây dựng mọi tiềm lực của quốc gia.',
+          'Mọi người dân phải tham gia xây dựng lực lượng vũ trang.',
+          'Tập trung xây dựng các tiềm lực: kinh tế, chính trị tinh thần, khoa học công nghệ, quân sự - an ninh.'
+        ],
+        answer: 0
+      },
+
+      // ==================== BÀI 4 (36 câu) ====================
+      {
+        id: '4.1', chapter: 4,
+        question: 'Khái niệm chiến tranh nhân dân chỉ ra: Chiến tranh nhân dân là...?',
+        options: [
+          'Là cuộc chiến tranh toàn dân, toàn diện do quân đội nhân dân Việt Nam làm nòng cốt...',
+          'Là hình thức chiến tranh toàn dân - toàn diện, lấy lực lượng vũ trang nhân dân làm nòng cốt...',
+          'Là hình thức chiến tranh huy động mọi tầng lớp nhân dân do lực lượng vũ trang làm nòng cốt...'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.2', chapter: 4,
+        question: 'Mục đích của chiến tranh nhân dân là?',
+        options: [
+          'Giữ vững môi trường hòa bình, ổn định chính trị, an ninh quốc gia, trật tự an toàn xã hội.',
+          'Giữ cho đất nước được hòa bình như hiện tại và mãi mãi.',
+          'Giữ cho Tổ quốc luôn bình yên, phát triển, an ninh quốc gia và trật tự an toàn xã hội được bảo đảm'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.3', chapter: 4,
+        question: 'Đối tượng của chiến tranh nhân dân Việt Nam hiện nay là?',
+        options: [
+          'Nhiều đối tượng trong đó tập trung chủ yếu vào những kẻ chống phá đất nước từ bên trong',
+          'Chỉ có những thế lực muốn thôn tính chủ quyền, lãnh thổ của nước ta và bọn phản động ở trong nước',
+          'Bất kể thế lực nào có âm mưu và hành động chống phá đất nước ta trong sự nghiệp xây dựng và bảo vệ Tổ quốc'
+        ],
+        answer: 2
+      },
+      {
+        id: '4.4', chapter: 4,
+        question: 'Lực lượng trong chiến tranh nhân dân được tổ chức như thế nào?',
+        options: [
+          'Được tổ chức chặt chẽ thành lực lượng quần chúng rộng rãi và lực lượng quân sự.',
+          'Được tổ chức thành hai lực lượng là lực lượng nhân dân và lực lượng vũ trang.',
+          'Được tổ chức cụ thể thành lực lượng đánh địch trên mặt trận quân sự và lực lượng đánh địch ở mọi nơi.'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.5', chapter: 4,
+        question: 'Một trong những điểm mạnh của kẻ thù khi tiến hành chiến tranh xâm lược nước ta?',
+        options: [
+          'Khi tiến hành chiến tranh, chúng có thể lôi kéo các quốc gia khác tham cùng chiến dưới mọi hình thức.',
+          'Buộc các nước đồng minh cùng tham chiến dưới mọi hình thức',
+          'Vừa tiến hành chiến tranh vừa sử dụng các biện pháp ngoại giao để lôi kéo đồng minh để có lực lượng lớn.'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.6', chapter: 4,
+        question: 'Việc tổ chức thế trận trong chiến tranh nhân dân cần được bố trí như thế nào?',
+        options: [
+          'Thế trận Chiến tranh nhân dân Việt Nam bố trí đầy đủ, đồng đều, rộng khắp trên cả nước.',
+          'Thế trận Chiến tranh nhân dân Việt Nam bố trí rộng khắp trên cả nước, nhưng có trọng tâm, trọng điểm',
+          'Thế trận Chiến tranh nhân dân Việt Nam bố trí tập trung chủ yếu ở những khu vực trọng điểm'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.7', chapter: 4,
+        question: 'Tính chất của chiến tranh nhân dân Việt Nam: Là cuộc chiến tranh...?',
+        options: [
+          'Toàn dân, toàn diện lấy LLVTND làm nòng cốt, dưới sự lãnh đạo của Đảng Cộng sản Việt Nam.',
+          'Đảng cộng sản Việt Nam lãnh đạo toàn thể nhân dân tiến hành chiến tranh toàn diện ở mọi nơi.',
+          'Toàn dân, toàn diện, lấy LLVTND làm nòng cốt, dưới sự lãnh đạo của Nhà nước cộng hòa XHCN Việt Nam'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.8', chapter: 4,
+        question: 'Tiến hành chiến tranh nhân dân bảo vệ Tổ quốc, cần quán triệt mấy quan điểm chỉ đạo của Đảng?',
+        options: [
+          '6 quan điểm chỉ đạo.',
+          '5 quan điểm chỉ đạo.',
+          '7 quan điểm chỉ đạo.'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.9', chapter: 4,
+        question: 'Theo bạn đâu là tiêu chí của một cuộc chiến tranh chính nghĩa?',
+        options: [
+          'Cuộc chiến tranh để bảo vệ quyền và lợi ích chính đáng của một dân tộc',
+          'Cuộc chiến tranh để bảo vệ quyền lợi của giai cấp',
+          'Cuộc đấu tranh của tất cả nhân dân trên cả nước'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.10', chapter: 4,
+        question: 'Đâu là tính chất của chiến tranh nhân dân Việt Nam?',
+        options: [
+          'Là cuộc chiến tranh phát huy sức mạnh của lịch sử dân tộc.',
+          'Là cuộc chiến tranh toàn dân, toàn diện, lấy lực lượng vũ trang nhân dân làm nòng cốt.',
+          'Là cuộc chiến tranh để bảo vệ biên giới, hải đảo, an ninh quốc gia'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.11', chapter: 4,
+        question: 'Thế trận chiến tranh nhân dân được bố trí...?',
+        options: [
+          'Rộng khắp trên cả nước nhưng có trọng tâm, trọng điểm.',
+          'Trải đều trên cả nước và tập trung ở những mục tiêu quan trọng',
+          'Tập trung ở những tỉnh, thành phố quan trọng và khu kinh tế lớn'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.12', chapter: 4,
+        question: 'Theo bạn: Chiến tranh nhân dân ngày nay để bảo vệ Tổ quốc chúng ta cần tập trung đánh địch?',
+        options: [
+          'Trên mặt trận ngoại giao và văn hóa.',
+          'Trên mặt trận kinh tế và bảo vệ chủ quyền biển đảo',
+          'Trên tất cả mọi mặt trận, lấy đấu tranh quân sự là chủ yếu.'
+        ],
+        answer: 2
+      },
+      {
+        id: '4.13', chapter: 4,
+        question: 'Mục đích của chiến tranh nhân dân là để....?',
+        options: [
+          '...bảo vệ nền văn hóa dân tộc',
+          '...bảo vệ những nét văn hóa dân tộc',
+          '...bảo vệ văn hóa dân tộc các vùng miền'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.14', chapter: 4,
+        question: 'Mục đích của chiến tranh nhân dân là để....?',
+        options: [
+          'Giữ vững môi trường hòa bình, an ninh quốc gia, trật tự, an toàn xã hội',
+          'Giữ vững môi trường hòa bình, ổn định chính trị, an ninh quốc gia, trật tự, an toàn xã hội',
+          'Giữ vững môi trường hòa bình, an ninh quốc gia, trật tự, an toàn xã hội (bản trùng)'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.15', chapter: 4,
+        question: 'Tổ quốc Việt Nam XHCN của chúng ta được hiểu là bao gồm các thành tố nào?',
+        options: [
+          'Lãnh thổ và toàn thể nhân dân.',
+          'Nhân dân và chủ quyền biên giới cả đất liền và hải đảo.',
+          'Lãnh thổ; nhân dân; thể chế chính trị (chế độ xã hội chủ nghĩa)'
+        ],
+        answer: 2
+      },
+      {
+        id: '4.16', chapter: 4,
+        question: 'Quan điểm chuẩn bị mọi mặt trên cả nước cũng như từng khu vực để đủ sức đánh được lâu dài được hiểu?',
+        options: [
+          'Chấp nhận nhường thế trận cho kẻ thù ngay trong giai đoạn đầu của chiến tranh vì biết chiến tranh còn dài',
+          'Chủ động che dấu, ẩn nấp lực lượng phương tiện để không bị tổn thất về lâu dài',
+          'Không đối đầu khi địch còn đang mạnh, mà tích cực chuẩn bị trên cả nước cũng như từng khu vực đủ sức đánh được lâu dài'
+        ],
+        answer: 2
+      },
+      {
+        id: '4.17', chapter: 4,
+        question: 'Thực hiện toàn dân đánh giặc được hiểu là?',
+        options: [
+          'Trang bị vũ khí cho mọi người dân tham gia đánh giặc.',
+          'Tổ chức động viên toàn thể nhân dân tham gia đánh giặc.',
+          'Huy động mọi người dân tham gia lực lượng vũ trang nhân dân'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.18', chapter: 4,
+        question: 'Trong việc huy động sức mạnh toàn dân đánh giặc. Vai trò của lực lượng vũ trang nhân dân là gì?',
+        options: [
+          'Là lực lượng chính đánh giặc và bảo vệ nhân dân.',
+          'Là lực lượng nòng cốt để toàn dân đánh giặc.',
+          'Là lực lượng chủ yếu, xung kích để đánh giặc.'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.19', chapter: 4,
+        question: 'Tại sao phải chuẩn bị mọi mặt trên cả nước cũng như từng khu vực để đủ sức đánh được lâu dài?',
+        options: [
+          'Vì chúng ta quán triệt quan điểm “trường kỳ kháng chiến” trong mọi giai đoạn cách mạng.',
+          'Xuất phát từ âm mưu thủ đoạn của kẻ thù là “đánh nhanh thắng nhanh”',
+          'Vì điều kiện, nguồn lực của chúng ta còn hạn chế nên không thể đánh giặc ngay từ đầu'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.20', chapter: 4,
+        question: 'Quan điểm thu hẹp không gian của chiến tranh được hiểu là?',
+        options: [
+          'Ta chỉ đánh địch trên các mặt trận chính.',
+          'Ta phải chuẩn bị mọi mặt chu đáo ngay từ ban đầu để địch đánh ở đâu thì bị sa lầy ở đó.',
+          'Vì địch không quen với nghệ thuật mở rộng chiến tranh.'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.21', chapter: 4,
+        question: 'Phương châm chỉ đạo của Đảng về bảo vệ tổ quốc trong tình hình mới?',
+        options: [
+          'Kiên định về mục tiêu, nguyên tắc về sách lược; linh hoạt, mềm dẻo về chiến lược.',
+          'Kiên định về mục tiêu, nguyên tắc chiến lược; linh hoạt, mềm dẻo về sách lược.',
+          'Luôn luôn kiên định về mục tiêu, nguyên tắc cả trong chiến lược và sách lược.'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.22', chapter: 4,
+        question: 'Mục đích của chiến tranh nhân dân Việt Nam bảo vệ Tổ quốc là:',
+        options: [
+          'Bảo vệ vững chắc nền độc lập-chủ quyền thống nhất toàn vẹn lãnh thổ; Bảo vệ Đảng, Nhà nước, nhân dân và chế độ XHCN; Bảo vệ sự nghiệp đổi mới CNH-HĐH đất nước.',
+          'Bảo vệ lợi ích quốc gia và lợi ích dân tộc; Bảo vệ nền văn hóa dân tộc; Bảo vệ giữ vững môi trường hòa bình, ổn định chính trị, an ninh quốc gia, trật tự, an toàn xã hội.',
+          'Cả a và b'
+        ],
+        answer: 2
+      },
+      {
+        id: '4.24', chapter: 4,
+        question: 'Đối tượng tác chiến của chiến tranh nhân dân Việt Nam bảo vệ Tổ quốc là:',
+        options: [
+          'Chủ nghĩa đế quốc và các lực lượng ly khai dân tộc trên thế giới.',
+          'Lực lượng khủng bố quốc tế và lực lượng phản động trong nước.',
+          'Bất kể thế lực nào có âm mưu và hành động chống phá mục tiêu của nước ta trong sự nghiệp xây dựng và bảo vệ Tổ quốc'
+        ],
+        answer: 2
+      },
+      {
+        id: '4.25', chapter: 4,
+        question: 'Âm mưu, thủ đoạn chủ yếu của kẻ thù khi xâm lược nước ta:',
+        options: [
+          'Thực hiện đánh nhanh, thắng nhanh',
+          'Thực hiện hỗ trợ cho lực lượng phản động trong nước, không tiến hành các hoạt động quân sự từ bên ngoài',
+          'Bất ngờ tấn công từ bên ngoài để lật đổ chế độ.'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.26', chapter: 4,
+        question: 'Khi tiến hành chiến tranh xâm lược nước ta, địch có điểm mạnh:',
+        options: [
+          'Tiềm lực quân sự, kinh tế, khoa học kỹ thuật mạnh hơn ta rất nhiều lần',
+          'Tiềm lực quân sự, kinh tế, chính trị, khoa học kỹ thuật mạnh hơn ta rất nhiều lần.',
+          'Tiềm lực quân sự, chính trị, khoa học kỹ thuật mạnh hơn ta rất nhiều lần.'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.27', chapter: 4,
+        question: 'Khi tiến hành chiến tranh xâm lược nước ta, địch có điểm yếu:',
+        options: [
+          'Đây là cuộc chiến tranh phi nghĩa, bị nhân dân trên thế giới lên án phản đối',
+          'Đây là cuộc chiến tranh phi nghĩa, bị nhân dân tiến bộ trên thế giới lên án phản đối',
+          'Đây là cuộc chiến tranh phi nghĩa, bị nhân dân tại các nước tham chiến phản đối'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.28', chapter: 4,
+        question: 'Tính chất chiến tranh nhân dân bảo vệ Tổ quốc là:',
+        options: [
+          'Cuộc chiến tranh của giai cấp công nhân nhằm bảo vệ độc lập chủ quyền và lãnh thổ',
+          'Cuộc chiến tranh chính nghĩa, tự vệ cách mạng nhằm bảo vệ Tổ quốc Việt Nam XHCN',
+          'Cuộc chiến tranh tự vệ nhằm đánh thắng các thế lực xâm lược để bảo vệ chủ quyền, lãnh thổ đất nước.'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.29', chapter: 4,
+        question: 'Tính chất hiện đại trong chiến tranh nhân dân bảo vệ Tổ quốc được thể hiện:',
+        options: [
+          'Hiện đại về vũ khí, trang bị, tri thức và nghệ thuật quân sự',
+          'Sử dụng vũ khí trang bị hiện đại để tiến hành chiến tranh',
+          'Kết hợp sử dụng vũ khí tương đối hiện đại với vũ khí hiện đại'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.30', chapter: 4,
+        question: 'Tính chất của chiến tranh nhân dân bảo vệ Tổ quốc?',
+        options: [
+          'Là chiến tranh nhân dân toàn dân, toàn diện, lấy lực lượng quân đội làm nòng cốt, dưới sự lãnh đạo của Đảng Cộng sản Việt Nam',
+          'Là chiến tranh nhân dân toàn dân, toàn diện, lấy lực lượng vũ trang làm nòng cốt, dưới sự lãnh đạo của Đảng Cộng sản Việt Nam',
+          'Là chiến tranh nhân dân toàn dân, toàn diện, lấy lực lượng vũ trang nhân dân làm nòng cốt, dưới sự lãnh đạo của Đảng Cộng sản Việt Nam'
+        ],
+        answer: 2
+      },
+      {
+        id: '4.31', chapter: 4,
+        question: 'Quan điểm đánh giặc toàn diện được hiểu là:',
+        options: [
+          'Đánh địch trên các mặt trận.',
+          'Đánh giặc bằng tất cả các phương tiện, vật dụng, vũ khí hiện có',
+          'Cả a và b'
+        ],
+        answer: 2
+      },
+      {
+        id: '4.32', chapter: 4,
+        question: 'Trong tiến hành chiến tranh toàn diện, mặt trận đấu tranh nào là chủ yếu:',
+        options: [
+          'Mặt trận kinh tế',
+          'Mặt trận quân sự',
+          'Mặt trận ngoại giao'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.33', chapter: 4,
+        question: 'Quan điểm của Đảng ta về chuẩn bị cho chiến tranh nhân dân bảo vệ Tổ quốc?',
+        options: [
+          'Chuẩn bị đánh địch lâu dài, nhưng giành thắng lợi càng sớm càng tốt',
+          'Không dàn trận, đối đầu với địch khi chúng còn mạnh, cố gắng ngăn chặn không cho địch mở rộng chiến tranh',
+          'Chuẩn bị mọi mặt trên cả nước cũng như từng khu vực để đủ sức đánh được lâu dài, ra sức thu hẹp không gian, rút ngắn thời gian của chiến tranh giành thắng lợi càng sớm càng tốt'
+        ],
+        answer: 2
+      },
+      {
+        id: '4.34', chapter: 4,
+        question: 'Thế trận chiến tranh nhân dân:',
+        options: [
+          'Là sự tổ chức, bố trí lực lượng phòng thủ đất nước',
+          'Là sự tổ chức bố trí lực lượng để tiến hành chiến tranh và hoạt động tác chiến',
+          'Là sự tổ chức, bố trí các lực lượng chiến đấu trên chiến trường'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.35', chapter: 4,
+        question: 'Trong chiến tranh nhân dân bảo vệ Tổ quốc, thế trận của chiến tranh được:',
+        options: [
+          'Thế trận chiến tranh nhân dân được bố trí rộng khắp trên cả nước nhưng phải có trọng tâm, trọng điểm',
+          'Bố trí rộng trên cả nước, nhưng phải tập trung cho khu vực chủ yếu',
+          'Bố trí rộng trên cả nước, nhưng tập trung ở các vùng kinh tế trọng điểm'
+        ],
+        answer: 0
+      },
+      {
+        id: '4.36', chapter: 4,
+        question: 'Lực lượng chiến tranh nhân dân là?',
+        options: [
+          'Các quân khu, quân đoàn chủ lực',
+          'Toàn dân đánh giặc trong đó lực lượng nòng cốt là lực lượng vũ trang nhân dân gồm ba thứ quân',
+          'Lực lượng lục quân, hải quân, phòng không không quân'
+        ],
+        answer: 1
+      },
+      {
+        id: '4.37', chapter: 4,
+        question: 'Tiến hành chiến tranh nhân dân bảo vệ Tổ quốc phải phối hợp chặt chẽ giữa:',
+        options: [
+          'Chống quân xâm lược từ bên ngoài vào với chống lực lượng khủng bố từ bên trong',
+          'Chống quân địch tấn công từ bên ngoài vào với bạo loạn lật đổ từ bên trong',
+          'Chống bạo loạn lật đổ với các hoạt động phá hoại khác'
+        ],
+        answer: 1
+      },
+
+      // ==================== BÀI 5 (20 câu) ====================
+      {
+        id: '5.1', chapter: 5,
+        question: 'Nhiệm vụ của lực lượng vũ trang nhân dân Việt Nam là?',
+        options: [
+          'Kiên quyết chiến đấu để bảo vệ nhân dân và Nhà nước Việt Nam XHCN',
+          'Sẵn sàng chiến đấu và chiến đấu để bảo vệ độc lập chủ quyền, thống nhất và toàn vẹn lãnh thổ của Tổ quốc.',
+          'Không ngừng chiến đấu và chiến thắng mọi kẻ thù để bảo vệ Tổ quốc.'
+        ],
+        answer: 1
+      },
+      {
+        id: '5.2', chapter: 5,
+        question: 'Nhiệm vụ của lực lượng vũ trang nhân dân Việt Nam hiện nay là?',
+        options: [
+          'Cùng toàn dân xây dựng đất nước.',
+          'Tập trung mọi nguồn lực cùng toàn dân xây dựng đất nước.',
+          'Tận dụng mọi phương tiện hiện có cùng toàn dân xây dựng đất nước.'
+        ],
+        answer: 0
+      },
+      {
+        id: '5.3', chapter: 5,
+        question: 'Phương hướng xây dựng lực lượng QĐND, CAND trong giai đoạn mới?',
+        options: [
+          'Từng bước hiện đại đối với tất cả các lực lượng',
+          'Từng bước hiện đại, ưu tiên một số quân binh chủng tiến thẳng lên hiện đại',
+          'Tiến thẳng lên hiện đại'
+        ],
+        answer: 1
+      },
+      {
+        id: '5.4', chapter: 5,
+        question: 'Bộ đội chủ lực là lực lượng...?',
+        options: [
+          'Có sức chiến đấu cao, được bố trí rộng khắp trên cả nước theo quy tắc nhất định',
+          'Có sức chiến đấu cao, cơ động khắp chiến trường cả nước để đánh giặc trên khắp mọi vùng miền.',
+          'Có sức chiến đấu cao, cơ động khắp chiến trường được bố trí phù hợp với thế trận chiến tranh nhân dân.'
+        ],
+        answer: 2
+      },
+      {
+        id: '5.5', chapter: 5,
+        question: 'Nội dung quan điểm tự lực, tự cường trong xây dựng lực lượng vũ trang là?',
+        options: [
+          'Tích cực đẩy mạnh phát triển kinh tế và thực hành tiết kiệm.',
+          'Tích cực tự nghiên cứu chế tạo vũ khí trang bị cho lực lượng vũ trang.',
+          'Tích cực khai thác, tận dụng những loại vũ khí hiện có.'
+        ],
+        answer: 0
+      },
+      {
+        id: '5.6', chapter: 5,
+        question: 'Nội dung quan điểm: Xây dựng LLVT lấy chất lượng là chính, lấy xây dựng về chính trị làm cơ sở?',
+        options: [
+          'Thường xuyên làm tốt công tác chăm lo đời sống để nâng cao trình độ sẵn sàng chiến đấu của LLVTND.',
+          'Thường xuyên làm tốt công tác huấn luyện, diễn tập để nâng cao trình độ sẵn sàng chiến đấu của LLVTND.',
+          'Thường xuyên làm tốt công tác chiến đấu để nâng cao trình độ sẵn sàng chiến đấu của LLVTND'
+        ],
+        answer: 1
+      },
+      {
+        id: '5.7', chapter: 5,
+        question: 'Phương hướng: Xây dựng lực lượng dự bị động viên....?',
+        options: [
+          'Hùng hậu, được huấn luyện và quản lý tốt, bảo đảm khi cần thiết có thể động viên nhanh chóng theo kế hoạch',
+          'Đủ số lượng và luôn trong trạng thái sẵn sàng tăng cường phục vụ cho các đơn vị thường trực.',
+          'Tập trung huấn luyện tốt để có thể động viên nhanh chóng theo kế hoạch'
+        ],
+        answer: 0
+      },
+      {
+        id: '5.8', chapter: 5,
+        question: 'Khái niệm lực lượng vũ trang nhân dân Việt Nam cho thấy...?',
+        options: [
+          'Lực lượng vũ trang nhân dân là các tổ chức vũ trang của nhân dân Việt Nam.',
+          'Lực lượng vũ trang nhân dân là các tổ chức vũ trang và bán vũ trang của nhân dân Việt Nam.',
+          'Là tất cả các lực lượng được vũ trang của nhân dân Việt Nam.'
+        ],
+        answer: 1
+      },
+      {
+        id: '5.9', chapter: 5,
+        question: 'Nhiệm vụ của lực lượng vũ trang nhân dân Việt Nam là...?',
+        options: [
+          'Tổ chức và hướng dẫn quần chúng nhân dân thực hiện thế trận chiến tranh nhân dân.',
+          'Chủ yếu là hướng dẫn quần chúng nhân dân thực hiện thế trận chiến tranh nhân dân.',
+          'Xây dựng thế trận chiến tranh và tổ chức cho nhân dân thực hiện theo.'
+        ],
+        answer: 0
+      },
+      {
+        id: '5.10', chapter: 5,
+        question: 'Lực lượng vũ trang bao gồm những lực lượng cơ bản nào?',
+        options: [
+          'Cảnh sát, quân đội',
+          'Quân đội nhân dân Việt Nam',
+          'Quân đội nhân dân Việt Nam và Công an nhân dân Việt Nam'
+        ],
+        answer: 2
+      },
+      {
+        id: '5.11', chapter: 5,
+        question: 'Lực lượng thường trực trong Quân đội nhân dân Việt Nam bao gồm:...?',
+        options: [
+          'Bộ đội chủ lực và các đơn vị quân đội đi làm kinh tế',
+          'Bộ đội chủ lực, bộ đội địa phương, bộ đội biên phòng, bộ đội cảnh sát biển.',
+          'Quân chủng Hải quân và quân chủng Phòng không – Không quân.'
+        ],
+        answer: 1
+      },
+      {
+        id: '5.12', chapter: 5,
+        question: 'Dân quân, tự vệ được tổ chức như thế nào?',
+        options: [
+          'Tổ chức ở các đơn vị hành chính cơ sở (xã, phường, thị trấn) và cơ quan, tổ chức của nhà nước',
+          'Tổ chức ở bất cứ đâu không có quân đội, công an',
+          'Tổ chức khi yêu cầu của việc bảo vệ Tổ quốc cần đến những lực lượng vũ trang khác.'
+        ],
+        answer: 0
+      },
+      {
+        id: '5.13', chapter: 5,
+        question: 'Bộ chỉ huy quân sự các Tỉnh, Thành phố trực thuộc trung ương thuộc lực lượng nào sau đây?',
+        options: [
+          'Bộ đội chủ lực.',
+          'Bộ đội địa phương.',
+          'Lực lượng vũ trang riêng biệt của các Tỉnh, Thành phố trực thuộc trung ương.'
+        ],
+        answer: 1
+      },
+      {
+        id: '5.14', chapter: 5,
+        question: 'Đâu là đặc điểm có liên quan đến xây dựng lực lượng vũ trang nhân dân Việt Nam?',
+        options: [
+          'Xây dựng LLVTND trong bối cảnh thế giới phức tạp, nước ta bình yên, không có sự đe dọa nào.',
+          'Xây dựng LLVTND trong điều kiện chúng ta đã khá giả, có nhiều điều kiện để hiện đại hóa.',
+          'Xây dựng LLVTND trong điều kiện quốc tế đã thay đổi, có nhiều diễn biến phức tạp.'
+        ],
+        answer: 2
+      },
+      {
+        id: '5.15', chapter: 5,
+        question: 'Quan điểm nào sau đây mang tính chỉ đạo trong xây dựng lực lượng vũ trang nhân dân?',
+        options: [
+          'Bảo đảm cho LLVTND luôn trong tư thế sẵn sàng chiến đấu và chiến đấu giành thắng lợi.',
+          'Bảo đảm cho LLVTND luôn chiến đấu giành thắng lợi ngay cả trong thời bình.',
+          'Bảo đảm cho LLVTND luôn trong tư thế sẵn sàng chiến đấu và chiến thắng.'
+        ],
+        answer: 0
+      },
+      {
+        id: '5.16', chapter: 5,
+        question: 'Quan điểm nguyên tắc trong xây dựng lực lượng vũ trang nhân dân thời kỳ mới là?',
+        options: [
+          'Tiếp tục tăng cường sự lãnh đạo của Đảng cộng sản Việt Nam',
+          'Giữ vững và tăng cường sự lãnh đạo của Đảng cộng sản Việt Nam đối với lực lượng vũ trang nhân dân.',
+          'Không ngừng tăng cường sự lãnh đạo của Đảng cộng sản Việt Nam đối với lực lượng vũ trang nhân dân.'
+        ],
+        answer: 1
+      },
+      {
+        id: '5.17', chapter: 5,
+        question: 'Một trong những đặc điểm liên quan đến xây dựng lực lượng vũ trang nhân dân là?',
+        options: [
+          'Đất nước ta bước sang thời kỳ đẩy mạnh CN hóa - hiện đại hóa và hội nhập kinh tế thế giới toàn diện hơn.',
+          'Đất nước ta đã thực hiện xong việc đẩy mạnh CN hóa - hiện đại hóa và hội nhập kinh tế thế giới toàn diện.',
+          'Đất nước ta đi qua thời kỳ đẩy mạnh CN hóa - hiện đại hóa và hội nhập kinh tế thế giới toàn diện hơn.'
+        ],
+        answer: 0
+      },
+      {
+        id: '5.18', chapter: 5,
+        question: 'Phương hướng xây dựng lực lượng vũ trang nhân dân trong giai đoạn mới là?',
+        options: [
+          'Xây dựng quân đội nhân dân, công an nhân dân theo hướng cách mạng, chính quy, từng bước hiện đại.',
+          'Xây dựng quân đội nhân dân, công an nhân dân theo hướng cách mạng, chính quy, tinh nhuệ, từng bước hiện đại.',
+          'Xây dựng quân đội nhân dân, cảnh sát nhân dân theo hướng cách mạng, chính quy, tinh nhuệ, từng bước hiện đại.'
+        ],
+        answer: 1
+      },
+      {
+        id: '5.19', chapter: 5,
+        question: 'Một trong những biện pháp chủ yếu xây dựng lực lượng vũ trang nhân dân là?',
+        options: [
+          'Từng bước giải quyết yêu cầu về vũ khí, trang bị kỹ thuật của LLVTND.',
+          'Giải quyết ngay yêu cầu về hiện đại hóa vũ khí, trang bị kỹ thuật của LLVTND.',
+          'Từng bước giải quyết yêu cầu về vũ khí, trang bị ngay vũ khí mới nhất cho lực lượng Hải quân.'
+        ],
+        answer: 0
+      },
+      {
+        id: '5.20', chapter: 5,
+        question: 'Lực lượng vũ trang nhân dân Việt Nam có nhiệm vụ: Là lực lượng xung kích, nòng cốt trong?',
+        options: [
+          'Xây dựng nền quốc phòng toàn dân, an ninh nhân dân.',
+          'Xây dựng và phát triển Quân đội nhân dân và Công an nhân dân',
+          'Chống kẻ thù xâm lược và lực lượng phản động trong và ngoài nước ở thời chiến cũng như thời bình'
+        ],
+        answer: 0
+      },
+
+      // ==================== BÀI 6 (20 câu) ====================
+      {
+        id: '6.1', chapter: 6,
+        question: 'Truyền thống lịch sử đã chứng minh: Dựng nước đi đôi với giữ nước đã trở thành...?',
+        options: [
+          'Quy luật tồn tại và phát triển của dân tộc ta.',
+          'Quy luật tồn tại và đánh thắng mọi kẻ thù của nhân dân ta.',
+          'Quy luật phát triển và hùng cường của dân tộc ta.'
+        ],
+        answer: 0
+      },
+      {
+        id: '6.2', chapter: 6,
+        question: 'Nội dung kết hợp phát triển KTXH với tăng cường, củng cố QPAN trong khoa học, công nghệ và GD là?',
+        options: [
+          'Coi trọng giáo dục, đào tạo nhân tài cho nhiệm vụ quốc phòng, an ninh.',
+          'Coi trọng giáo dục bồi dưỡng nhân lực, đào tạo nhân tài của đất nước.',
+          'Coi trọng giáo dục bồi dưỡng và đào tạo nhân tài nhằm phát triển kinh tế.'
+        ],
+        answer: 1
+      },
+      {
+        id: '6.3', chapter: 6,
+        question: 'Kết hợp phát triển kinh tế xã hội với tăng cường củng cố quốc phòng, an ninh hiện nay nhằm mục đích gì?',
+        options: [
+          'Thực hiện thắng lợi hai nhiệm vụ chiến lược xây dựng CNXH và bảo vệ vững chắc Tổ quốc Việt Nam XHCN.',
+          'Thực hiện tốt nhiệm vụ chiến lược xây dựng và phát triển kinh tế xã hội.',
+          'Thực hiện tốt yêu cầu bảo vệ chủ quyền biển, đảo trước sự hung hăng của các thế lực bên ngoài.'
+        ],
+        answer: 0
+      },
+      {
+        id: '6.4', chapter: 6,
+        question: 'Đặc điểm về QPAN ở các vùng kinh tế trọng điểm là?',
+        options: [
+          'Nơi có tình hình an ninh chính trị rất phức tạp.',
+          'Nơi thường xuyên có các hoạt động biểu tình về chính sách đất đai.',
+          'Nơi có nhiều đối tượng, mục tiêu quan trọng phải bảo vệ'
+        ],
+        answer: 2
+      },
+      {
+        id: '6.5', chapter: 6,
+        question: 'Nội dung kết hợp phát triển KTXH với tăng cường, củng cố QPAN ở vùng núi, biên giới là?',
+        options: [
+          'Tập trung xây dựng các xã trọng điểm về kinh tế và quốc phòng an ninh.',
+          'Thực hiện tốt chương trình cắm mốc biên giới và đẩy mạnh việc giao thương với nước ngoài.',
+          'Hạn chế nhập khẩu, tăng cường xuất khẩu qua các đường biên nhỏ, lẻ với các nước láng giềng.'
+        ],
+        answer: 0
+      },
+      {
+        id: '6.6', chapter: 6,
+        question: 'Nội dung kết hợp phát triển KTXH với tăng cường, củng cố QPAN ở vùng biển, đảo là?',
+        options: [
+          'Chú trọng đầu tư phát triển các đội tàu đánh cá cỡ lớn.',
+          'Chú trọng phát triển các doanh nghiệp khai thác thủy sản có quy mô lớn để xuất khẩu.',
+          'Chú trọng đầu tư phát triển chương trình đánh bắt xa bờ.'
+        ],
+        answer: 2
+      },
+      {
+        id: '6.7', chapter: 6,
+        question: 'Theo QĐ Số 2360/QĐ-TTg (của Thủ tướng chính phủ): Vùng KT trọng điểm Bắc Bộ gồm?',
+        options: [
+          'Thành phố Hà Nội, thành phố Hải Phòng và các tỉnh: Bắc Ninh, Hải Dương, Hưng Yên, Quảng Ninh.',
+          'Thành phố Hà Nội, thành phố Hải Phòng và các tỉnh: Bắc Ninh, Hải Dương, Hưng Yên, Quảng Ninh, Vĩnh Phúc.',
+          'Thành phố Hà Nội, thành phố Hải Phòng và các tỉnh: Bắc Ninh, Bắc Giang, Hải Dương, Quảng Ninh, Vĩnh Phúc.'
+        ],
+        answer: 1
+      },
+      {
+        id: '6.8', chapter: 6,
+        question: 'Theo QĐ Số 2360/QĐ-TTg (của Thủ tướng chính phủ): Vùng KT trọng điểm đồng bằng sông Cửu Long gồm?',
+        options: [
+          'Tất cả các tỉnh, thành phố thuộc đồng bằng sông Cửu Long',
+          'Thành phố Cần Thơ và các tỉnh: An Giang, Kiên Giang, Cà Mau.',
+          'Thành phố Cần Thơ và các tỉnh: An Giang, Kiên Giang, Cà Mau, Bạc Liêu.'
+        ],
+        answer: 1
+      },
+      {
+        id: '6.9', chapter: 6,
+        question: 'Nội dung kết hợp phát triển KTXH với tăng cường, củng cố QPAN trong lĩnh vực y tế là?',
+        options: [
+          'Xây dựng kế hoạch động viên y tế dân sự cho quân sự khi có chiến tranh xảy ra',
+          'Tận dụng khả năng khám chữa bệnh của các đơn vị quân y nhằm tăng thu nhập cho đội ngũ y bác sỹ.',
+          'Huy động các bệnh viện quân y tham gia khám chữa bệnh nhằm nâng cao tay nghề cho lực lượng quân y.'
+        ],
+        answer: 0
+      },
+      {
+        id: '6.10', chapter: 6,
+        question: 'Nội dung kết hợp phát triển KTXH với tăng cường, củng cố QPAN trong lĩnh vực y tế là?',
+        options: [
+          'Xây dựng mô hình quân dân y kết hợp trên các địa bàn, đặc biệt là ở khu vực thành phố, thị xã.',
+          'Xây dựng mô hình quân dân y kết hợp trên các địa bàn, đặc biệt là ở miền núi, biên giới, hải đảo.',
+          'Xây dựng mô hình quân dân y kết hợp trên các địa bàn, đặc biệt là ở những khu vực nông thôn.'
+        ],
+        answer: 1
+      },
+      {
+        id: '6.11', chapter: 6,
+        question: 'Giải pháp chủ yếu để thực hiện kết hợp phát triển KTXH với tăng cường, củng cố QPAN hiện nay là?',
+        options: [
+          'Xây dựng chiến lược tổng thể kết hợp phát triển KTXH với tăng cường, củng cố QPAN trong thời kỳ mới.',
+          'Xây dựng chiến lược tổng thể kết hợp phát triển kinh tế với tăng cường quốc phòng trong thời kỳ mới',
+          'Xây dựng bản lĩnh cho thế hệ trẻ đặc biệt là lực lượng học sinh, sinh viên để bảo vệ Tổ quốc.'
+        ],
+        answer: 0
+      },
+      {
+        id: '6.12', chapter: 6,
+        question: 'Nội dung kết hợp phát triển KTXH với tăng cường, củng cố QPAN trong lĩnh vực giao thông vận tải là?',
+        options: [
+          'Xây dựng kế hoạch huy động các phương tiện giao thông vận tải cho thời chiến.',
+          'Xây dựng kế hoạch động viên giao thông vận tải cho thời chiến.',
+          'Xây dựng kế hoạch huy động một phần phương tiện giao thông vận tải cho thời chiến.'
+        ],
+        answer: 1
+      },
+      {
+        id: '6.13', chapter: 6,
+        question: 'Nội dung kết hợp phát triển KTXH với tăng cường, củng cố QPAN trong hoạt động đối ngoại là?',
+        options: [
+          'Trong lĩnh vực đối ngoại phải chú trọng lựa chọn đối tác.',
+          'Trong lĩnh vực kinh tế đối ngoại, phải kết hợp từ khâu lựa chọn đối tác.',
+          'Tích cực kêu gọi đầu tư từ nước ngoài và ưu tiên lựa chọn những tập đoàn kinh tế lớn.'
+        ],
+        answer: 1
+      },
+      {
+        id: '6.14', chapter: 6,
+        question: 'Nội dung kết hợp phát triển KTXH với tăng cường, củng cố QPAN ở vùng biển, đảo là?',
+        options: [
+          'Xây dựng phương án đối phó với các tình huống có thể xảy ra ở vùng biển, đảo.',
+          'Tăng cường sức chiến đấu cho lực lượng Hải quân để sẵn sàng nổ súng bảo vệ biển, đảo',
+          'Tạm thời chấp nhận việc chủ quyền biển, đảo không toàn vẹn để tập trung phát triển kinh tế.'
+        ],
+        answer: 0
+      },
+      {
+        id: '6.15', chapter: 6,
+        question: 'Nội dung kết hợp phát triển KTXH với tăng cường, củng cố QPAN trong nông, lâm, ngư nghiệp là?',
+        options: [
+          'Kết hợp phải nhằm khai thác có hiệu quả tiềm năng đất đai và lực lượng lao động dư thừa',
+          'Kết hợp phải nhằm khai thác có hiệu quả tiềm năng đất đai, rừng biển, đảo và lực lượng lao động',
+          'Kết hợp phải nhằm khai thác có hiệu quả tiềm năng đất đai, nuôi trồng thủy sản và nguồn lao động.'
+        ],
+        answer: 1
+      },
+      {
+        id: '6.16', chapter: 6,
+        question: 'Từ cơ sở lý luận hãy cho biết tại sao phải kết hợp phát triển KTXH với tăng cường, củng cố QPAN?',
+        options: [
+          'KTXH với QPAN có mối quan hệ biện chứng, tác động qua lại thúc đẩy nhau cùng phát triển',
+          'KTXH tác động một chiều đến QPAN làm cho hoạt động này phát triển mạnh mẽ.',
+          'QPAN xuất hiện để bảo vệ nền kinh tế phát triển bình thường ở mọi quốc gia.'
+        ],
+        answer: 0
+      },
+      {
+        id: '6.17', chapter: 6,
+        question: 'Một trong những chủ trương kết hợp phát triển KTXH với tăng cường củng cố QPAN thời chống Pháp?',
+        options: [
+          '“Xây dựng điểm các làng kháng chiến kết hợp với phát triển kinh tế để đánh giặc”',
+          '“Xây dựng các khu vực chiến đấu ngay trong các khu vực sản xuất để vừa làm vừa đánh giặc”',
+          '“Xây dựng làng kháng chiến, thực hiện địch đến thì đánh, địch lui ta lại tăng gia sản xuất”'
+        ],
+        answer: 2
+      },
+      {
+        id: '6.18', chapter: 6,
+        question: 'Mục đích kết hợp phát triển KTXH với tăng cường, củng cố QPAN trong phát triển các vùng lãnh thổ?',
+        options: [
+          'Theo ý đồ phòng thủ chiến lược bảo vệ Tổ quốc Việt Nam vững trên toàn cục và mạnh ở từng trọng điểm',
+          'Theo kế hoạch phòng thủ chiến lược bảo vệ Nhà nước Việt Nam vững trên toàn cục và mạnh ở từng trọng điểm',
+          'Theo ý đồ phòng thủ hiện nay để bảo vệ Tổ quốc Việt Nam trên toàn lãnh thổ.'
+        ],
+        answer: 0
+      },
+      {
+        id: '6.19', chapter: 6,
+        question: 'Nội dung kết hợp phát triển KTXH với tăng cường, củng cố QPAN ở vùng kinh tế trọng điểm là?',
+        options: [
+          'Xây dựng các thành phố, các khu công nghiệp cần lựa chọn quy mô trung bình, bố trí trải đều trên diện rộng',
+          'Xây dựng các thành phố, các khu công nghiệp cần lựa chọn quy mô tập trung, trải đều trên diện rộng',
+          'Trong quy hoạch, kế hoạch xây dựng các thành phố, các khu công nghiệp cần lựa chọn quy mô trung bình, bố trí phân tán, trải đều trên diện rộng'
+        ],
+        answer: 2
+      },
+      {
+        id: '6.20', chapter: 6,
+        question: 'Đâu là nội dung kết hợp phát triển KTXH với tăng cường, củng cố QPAN và đối ngoại ở nước ta hiện nay?',
+        options: [
+          'Kết hợp phát triển KTXH với tăng cường, củng cố QPAN trong một số ngành kinh tế mũi nhọn',
+          'Kết hợp phát triển KTXH với tăng cường, củng cố QPAN trong các ngành, các lĩnh vực kinh tế chủ yếu.',
+          'Kết hợp phát triển KTXH với tăng cường, củng cố QPAN cần tập trung ở những lĩnh vực chủ yếu'
+        ],
+        answer: 1
+      },
+
+      // ==================== BÀI 7 (26 câu) ====================
+      {
+        id: '7.1', chapter: 7,
+        question: 'Nghệ thuật quân sự là:',
+        options: [
+          'Là lý luận và thực tiễn để chỉ đạo và thực hành chiến tranh (đấu tranh vũ trang)',
+          'Là tổng thể phương châm, chính sách và mưu lược được hoạch định để ngăn ngừa và sẵn sàng tiến hành chiến tranh thắng lợi',
+          'Là lý luận và thực tiễn để tổ chức và thực hành các chiến dịch quân sự và các hoạt động tác chiến tương đương'
+        ],
+        answer: 0
+      },
+      {
+        id: '7.2', chapter: 7,
+        question: 'Cuộc chiến tranh đánh dấu kết thúc hơn một nghìn năm Bắc thuộc là:',
+        options: [
+          'Cuộc kháng chiến chống quân Nam Hán của Ngô Quyền',
+          'Cuộc khởi nghĩa Hai Bà Trưng',
+          'Khởi nghĩa Bà Triệu'
+        ],
+        answer: 0
+      },
+      {
+        id: '7.3', chapter: 7,
+        question: 'Vì sao nước ta thường bị các thế lực ngoại xâm nhòm ngó, đe dọa, tiến công xâm lược:',
+        options: [
+          'Việt Nam có rừng vàng, biển bạc.',
+          'Việt Nam có vị trí chiến lược quan trọng ở khu vực Đông Nam Á và biển Đông.',
+          'Việt Nam là một thị trường tiềm năng, có rất nhiều tài nguyên khoáng sản.'
+        ],
+        answer: 1
+      },
+      {
+        id: '7.4', chapter: 7,
+        question: 'Tư tưởng chỉ đạo tác chiến trong tiến hành chiến tranh của ông cha ta là:',
+        options: [
+          'Tích cực chủ động phòng thủ.',
+          'Tích cực chủ động tiến công.',
+          'Kết hợp giữa tiến công và phòng ngự.'
+        ],
+        answer: 1
+      },
+      {
+        id: '7.5', chapter: 7,
+        question: 'Nghệ thuật lấy nhỏ đánh lớn, lấy ít địch nhiều, lấy yếu chống mạnh là sản phẩm của:',
+        options: [
+          'Lấy thế thắng lực.',
+          'Lấy mưu thắng lực.',
+          'Lấy ý chí thắng lực.'
+        ],
+        answer: 0
+      },
+      {
+        id: '7.6', chapter: 7,
+        question: 'Nội dung nghệ thuật đánh giặc của tổ tiên:',
+        options: [
+          'Sử dụng mưu kế để đánh giặc',
+          'Kết hợp đấu tranh giữa các mặt trận quân sự, chính trị, ngoại giao và binh vận',
+          'Cả a và b'
+        ],
+        answer: 2
+      },
+      {
+        id: '7.7', chapter: 7,
+        question: 'Cơ sở về lý luận hình thành nghệ thuật quân sự Việt Nam từ khi có Đảng lãnh đạo:',
+        options: [
+          'Quan điểm của chủ nghĩa Mác Lênin về chiến tranh, quân đội và bảo vệ Tổ quốc',
+          'Truyền thống và kinh nghiệm đánh giặc của tổ tiên',
+          'Kinh nghiệm từ các cuộc chiến tranh trên thế giới'
+        ],
+        answer: 0
+      },
+      {
+        id: '7.8', chapter: 7,
+        question: 'Vị trí của mặt trận quân sự trong nội dung nghệ thuật đánh giặc của tổ tiên được xác định như thế nào?',
+        options: [
+          'Là mặt trận có tính quyết định trực tiếp thắng lợi của chiến tranh',
+          'Thắng lợi trên mặt trận quân sự sẽ tạo đà, tạo thế cho các mặt trận khác',
+          'Cả a và b'
+        ],
+        answer: 2
+      },
+      {
+        id: '7.9', chapter: 7,
+        question: 'Trong nghệ thuật quân sự Việt Nam từ khi có Đảng lãnh đạo, nghệ thuật nào là quan trọng nhất:',
+        options: [
+          'Nghệ thuật chiến thuật.',
+          'Nghệ thuật chiến dịch.',
+          'Nghệ thuật chiến lược.'
+        ],
+        answer: 2
+      },
+      {
+        id: '7.10', chapter: 7,
+        question: 'Trong phương châm tiến hành chiến tranh được Đảng ta chỉ đạo:',
+        options: [
+          'Tự lực cánh sinh, đánh lâu dài, dựa vào sức mình là chính.',
+          'Tự lực cánh sinh, đánh lâu dài, dựa vào sức mạnh thời đại.',
+          'Tự lực cánh sinh và dựa vào các nước để đánh lâu dài.'
+        ],
+        answer: 0
+      },
+      {
+        id: '7.11', chapter: 7,
+        question: 'Một số loại hình chiến dịch trong nghệ thuật quân sự Việt Nam là:',
+        options: [
+          'Chiến dịch phục kích, tập kích, đổ bộ đường không tổng hợp.',
+          'Chiến dịch tiến công, phản công, phòng ngự, phòng không, tiến công tổng hợp.',
+          'Chiến dịch tiến công, tập kích đường không chiến lược.'
+        ],
+        answer: 1
+      },
+      {
+        id: '7.12', chapter: 7,
+        question: 'Cuộc kháng chiến chống quân xâm lược Tống thời Lý (1075-1077) là điển hình của nghệ thuật quân sự nào:',
+        options: [
+          'Tránh chỗ mạnh đánh chỗ yếu',
+          '“Thanh dã” (vườn không nhà trống)',
+          '“Tiên phát chế nhân” (Chủ động tiến công trước để đẩy kẻ thù vào thế bị động)'
+        ],
+        answer: 2
+      },
+      {
+        id: '7.13', chapter: 7,
+        question: 'Một trong những cơ sở hình thành nghệ thuật quân sự Việt Nam từ khi có Đảng lãnh đạo:',
+        options: [
+          'Từ quan điểm của chủ nghĩa Mác – Lênin về đấu tranh giai cấp.',
+          'Tư tưởng quân sự Hồ Chí Minh.',
+          'Từ quan điểm của chủ nghĩa Mác – Lênin về đấu tranh dân tộc.'
+        ],
+        answer: 1
+      },
+      {
+        id: '7.14', chapter: 7,
+        question: 'Nghệ thuật quân sự Việt Nam từ khi có Đảng gồm các bộ phận hợp thành là:',
+        options: [
+          'Hai bộ phận (Chủ nghĩa Mác Lênin và tư tưởng Hồ Chí Minh về chiến tranh, quân đội và bảo vệ tổ quốc)',
+          'Ba bộ phận (chiến lược quân sự, nghệ thuật chiến dịch và chiến thuật)',
+          'Ba bộ phận (chiến lược quân sự, nghệ thuật chiến dịch và đường lối quan điểm của Đảng về chiến tranh)'
+        ],
+        answer: 1
+      },
+      {
+        id: '7.15', chapter: 7,
+        question: 'Trong cuộc khởi nghĩa Lam Sơn, một trong những mưu kế được Nguyễn Trãi sử dụng là:',
+        options: [
+          'Vườn không nhà trống (Thanh dã)',
+          'Rút lui chiến lược để bảo toàn lực lượng',
+          '“Mưu phạt tâm công”'
+        ],
+        answer: 2
+      },
+      {
+        id: '7.16', chapter: 7,
+        question: 'Các yếu tố tác động đến việc hình thành nghệ thuật đánh giặc của tổ tiên ta:',
+        options: [
+          'Yếu tố địa lý',
+          'Yếu tố chính trị, văn hóa xã hội.',
+          'Cả a và b'
+        ],
+        answer: 2
+      },
+      {
+        id: '7.17', chapter: 7,
+        question: 'Vai trò của yếu tố địa lý trong nghệ thuật đánh giặc của tổ tiên ta:',
+        options: [
+          'Là yếu tố quan trọng tác động trực tiếp đến tư duy quân sự',
+          'Là yếu tố rất quan trọng, tác động mạnh mẽ đến sự hình thành nghệ thuật đánh giặc của tổ tiên.',
+          'Cả hai phương án trên đều đúng'
+        ],
+        answer: 1
+      },
+      {
+        id: '7.18', chapter: 7,
+        question: 'Bài học kinh nghiệm nào về nghệ thuật quân sự có thể được vận dụng trong bảo vệ TQVNXHCN hiện nay:',
+        options: [
+          'Phát huy nghệ thuật quân sự “toàn dân đánh giặc”',
+          'Tạo sức mạnh tổng hợp của đất nước bằng lực, thế, thời và mưu kế để đánh giặc',
+          'Cả a và b'
+        ],
+        answer: 2
+      },
+      {
+        id: '7.19', chapter: 7,
+        question: 'Một trong những nghệ thuật đánh giặc của ông cha ta là:',
+        options: [
+          'Kết hợp đấu tranh giữa các mặt trận quân sự, chính trị, ngoại giao, binh vận.',
+          'Kết hợp đấu tranh giữa các mặt trận quân sự, chính trị, ngoại giao, dân vận.',
+          'Kết hợp đấu tranh giữa các mặt trận quân sự, kinh tế, ngoại giao, binh vận.'
+        ],
+        answer: 0
+      },
+      {
+        id: '7.20', chapter: 7,
+        question: 'Thời nhà Trần đã vận dụng tư tưởng chỉ đạo tác chiến “tích cực, chủ động tiến công” như thế nào?',
+        options: [
+          'Chủ động tấn công trước để phá thế giặc mạnh.',
+          'Phòng ngự chiến lược tích cực sau đó phản công chiến lược.',
+          'Chủ động rút lui chiến lược tránh thế giặc mạnh sau đó phản công chiến lược.'
+        ],
+        answer: 2
+      },
+      {
+        id: '7.21', chapter: 7,
+        question: 'Nghệ thuật quân sự Việt Nam từ khi có Đảng lãnh đạo được hình thành trên cơ sở nào?',
+        options: [
+          'Từ truyền thống và nghệ thuật đánh giặc của Tổ tiên',
+          'Từ học thuyết Mác- Lênin, tư tưởng Hồ Chí Minh về chiến tranh, quân đội và bảo vệ Tổ quốc',
+          'Từ kinh nghiệm của các nước trên thế giới được vận dụng vào thực tiễn Việt Nam'
+        ],
+        answer: 0
+      },
+      {
+        id: '7.22', chapter: 7,
+        question: 'Sau cách mạng Tháng 8 năm 1945 Đảng ta xác định:',
+        options: [
+          'Quân đội Nhật, Anh, Pháp, Tưởng là kẻ thù nguy hiểm trực tiếp nhất của cách mạng Việt Nam',
+          'Quân đội Mỹ là kẻ thù, là đối tượng tác chiến của quân và dân ta',
+          'Thực dân Pháp là kẻ thù nguy hiểm, trực tiếp nhất của cách mạng VN, là đối tượng tác chiến của quân và dân ta'
+        ],
+        answer: 2
+      },
+      {
+        id: '7.23', chapter: 7,
+        question: 'Tư tưởng chỉ đạo tác chiến trong tiến hành chiến tranh của ông cha ta là:',
+        options: [
+          'Tích cực chủ động phòng thủ.',
+          'Tích cực chủ động tiến công',
+          'Kết hợp giữa tiến công và phòng ngự.'
+        ],
+        answer: 1
+      },
+      {
+        id: '7.24', chapter: 7,
+        question: 'Trong nghệ thuật kết hợp đấu tranh giữa các mặt trận thì chính trị được xác định là:',
+        options: [
+          'Mặt trận quan trọng nhất, chủ yếu nhất.',
+          'Mặt trận quyết định thắng lợi của chiến tranh.',
+          'Cơ sở để tạo ra sức mạnh về quân sự'
+        ],
+        answer: 2
+      },
+      {
+        id: '7.25', chapter: 7,
+        question: 'Trong nghệ thuật chiến lược quân sự của Đảng, nội dung nào là quan trọng:',
+        options: [
+          'Xác định đúng lực lượng và phương tiện tác chiến của kẻ thù.',
+          'Xác định đúng đối tượng, đúng đối tác.',
+          'Xác định đúng kẻ thù, đúng đối tượng tác chiến.'
+        ],
+        answer: 2
+      },
+      {
+        id: '7.26', chapter: 7,
+        question: 'Về chiến lược quân sự, chúng ta xác định thời điểm mở đầu và kết thúc chiến tranh đúng lúc là khi chúng ta:',
+        options: [
+          'Được quốc tế ủng hộ và giúp đỡ.',
+          'Đã đáp ứng được mọi điều kiện của hoàn cảnh lịch sử.',
+          'Đã xây dựng được thế trận vững mạnh, lực lượng, phương tiện đầy đủ.'
+        ],
+        answer: 1
+      },
+
+      // ==================== BÀI 8 (11 câu) ====================
+      {
+        id: '8.1', chapter: 8,
+        question: 'Chủ quyền quốc gia là quyền...của một quốc gia trong phạm vi lãnh thổ của một quốc gia đó?',
+        options: [
+          'Tuyệt đối và toàn diện',
+          'Làm chủ một cách độc lập, toàn vẹn và đầy đủ về mọi mặt lập pháp, hành pháp và tư pháp',
+          'Độc lập thiết đặt các vấn đề về chủ quyền, pháp lý, chính trị'
+        ],
+        answer: 1
+      },
+      {
+        id: '8.2', chapter: 8,
+        question: 'Lãnh thổ quốc gia bao gồm có?',
+        options: [
+          'Vùng đất, vùng biển, vùng trời',
+          'Vùng đất, vùng nước, vùng trời và vùng lòng đất',
+          'Vùng đất, vùng nước, vùng trời, vùng khí quyển trên vùng trời và vùng lòng đất'
+        ],
+        answer: 1
+      },
+      {
+        id: '8.3', chapter: 8,
+        question: 'Vùng đất quốc gia bao gồm có?',
+        options: [
+          'Đất liền, đảo và quần đảo',
+          'Toàn bộ vùng đất bên trong đường biên giới quốc gia',
+          'Lãnh thổ đất liền và bên trong lòng đất'
+        ],
+        answer: 0
+      },
+      {
+        id: '8.4', chapter: 8,
+        question: 'Vùng nước quốc gia bao gồm có?',
+        options: [
+          'Vùng biển và các sông, hồ, ao, suối, kênh, ngòi...',
+          'Vùng nước thuộc vùng biển và vùng nước trong lãnh thổ',
+          'Vùng nước nội địa, vùng nước biên giới, vùng nước nội thủy và vùng nước lãnh hải'
+        ],
+        answer: 2
+      },
+      {
+        id: '8.5', chapter: 8,
+        question: 'Vùng biển Việt Nam được xác định có các vùng:...?',
+        options: [
+          'Đường cơ sở, nội thủy, lãnh hải, đặc quyền kinh tế.',
+          'Đường cơ sở, nội thủy, lãnh hải, đặc quyền kinh tế và thềm lục địa.',
+          'Nội thủy, lãnh hải, tiếp giáp lãnh hải, đặc quyền kinh tế và thềm lục địa.'
+        ],
+        answer: 2
+      },
+      {
+        id: '8.6', chapter: 8,
+        question: 'Việt Nam đã tuyên bố chủ quyền với bao nhiêu quần đảo?',
+        options: [
+          '1 quần đảo (quần đảo Trường Sa)',
+          '3 quần đảo (Hoàng Sa, Trường Sa, quần đảo thuộc Vịnh Hạ Long)',
+          '2 quần đảo (Hoàng Sa và Trường Sa)'
+        ],
+        answer: 2
+      },
+      {
+        id: '8.7', chapter: 8,
+        question: 'Theo Công ước Luật Biển 1982, mỗi quốc gia ven biển có những quyền khác nhau đó là?',
+        options: [
+          'Quyền chủ quyền và quyền tài phán quốc gia trên biển',
+          'Chủ quyền, quyền chủ quyền và quyền tài phán quốc gia',
+          'Chủ quyền, quyền chủ quyền và quyền tài phán trong việc cho phép hay không cho phép quốc gia khác hoạt động'
+        ],
+        answer: 1
+      },
+      {
+        id: '8.8', chapter: 8,
+        question: 'Các bộ phận cấu thành biên giới quốc gia bao gồm?',
+        options: [
+          'Biên giới quốc gia trên đất liền, trên vùng nước, trên không',
+          'Biên giới quốc gia trên đất liền, trên biển, trong không gian, trong lòng đất, trong vùng nước',
+          'Biên giới quốc gia trên đất liền, trên không, trên biển, trong lòng đất'
+        ],
+        answer: 2
+      },
+      {
+        id: '8.9', chapter: 8,
+        question: 'Biên giới quốc gia trên đất liền là?',
+        options: [
+          'Biên giới phân chia chủ quyền lãnh thổ đất liền của một quốc gia được quốc tế công nhận',
+          'Biên giới phân chia chủ quyền lãnh thổ đất liền của một quốc gia với quốc gia khác',
+          'Biên giới phân chia chủ quyền lãnh thổ đất liền của một quốc gia với tất cả các nước lân cận'
+        ],
+        answer: 1
+      },
+      {
+        id: '8.10', chapter: 8,
+        question: 'Biên giới quốc gia trên biển là.... của các quốc gia ven biển?',
+        options: [
+          'Ranh giới ngoài của lãnh hải hoặc là đường phân cách các vùng nội thủy hoặc vùng lãnh hải',
+          'Ranh giới ngoài của vùng tiếp giáp lãnh hải',
+          'Ranh giới ngoài của vùng đặc quyền kinh tế'
+        ],
+        answer: 0
+      },
+      {
+        id: '8.11', chapter: 8,
+        question: 'Biên giới quốc gia trên không được xác định là?',
+        options: [
+          'Là phần không gian trên đất liền và trên vùng biển thuộc chủ quyền hoàn toàn và đầy đủ của quốc gia',
+          'Là mặt thẳng đứng từ biên giới quốc gia trên đất liền và biên giới quốc gia trên biển lên vùng trời',
+          'Là khoảng không gian bên trên của biên giới đất liền và vùng biển của một quốc gia'
+        ],
+        answer: 1
+      },
+
+      // ==================== BÀI 9 (15 câu) ====================
+      {
+        id: '9.1', chapter: 9,
+        question: 'Lực lượng tự vệ được tổ chức ở:',
+        options: [
+          'Ở xã, phường thị trấn.',
+          'Ở cơ quan nhà nước, tổ chức chính trị; Tổ chức chính trị xã hội, đơn vị sự nghiệp, tổ chức kinh tế.',
+          'Ở cơ quan nhà nước, tổ chức chính trị'
+        ],
+        answer: 1
+      },
+      {
+        id: '9.2', chapter: 9,
+        question: 'Vai trò của lực lượng dân quân tự vệ:',
+        options: [
+          'Là lực lượng cơ bản trong xây dựng nền quốc phòng toàn dân.',
+          'Là lực lượng xung kích trong xây dựng nền quốc phòng toàn dân và an ninh nhân dân.',
+          'Làm nòng cốt cùng toàn dân đánh giặc ở địa phương, cơ sở khi có chiến tranh'
+        ],
+        answer: 2
+      },
+      {
+        id: '9.3', chapter: 9,
+        question: 'Nhiệm vụ của lực lượng dân quân tự vệ:',
+        options: [
+          'Tham gia thực hiện các biện pháp về chiến tranh thông tin, chiến tranh không gian mạng quy định của pháp luật, quyết định của cấp có thẩm quyền',
+          'Học tập chính trị và huấn luyện quân sự.',
+          'Sẵn sàng chiến đấu bảo vệ địa phương, cơ sở, cơ quan, tổ chức'
+        ],
+        answer: 0
+      },
+      {
+        id: '9.4', chapter: 9,
+        question: 'Phương châm xây dựng lực lượng dân quân tự vệ:',
+        options: [
+          'Vững mạnh, rộng khắp coi trọng chất lượng là chính',
+          'Vững mạnh, toàn diện lấy chất lượng chính trị là chính.',
+          'Vững mạnh, coi trọng cả số lượng và chất lượng.'
+        ],
+        answer: 0
+      },
+      {
+        id: '9.5', chapter: 9,
+        question: 'Thôn tổ chức tổ, tiểu đội hoặc trung đội:',
+        options: [
+          'Dân quân cơ động',
+          'Dân quân tại chỗ',
+          'Dân quân thường trực'
+        ],
+        answer: 1
+      },
+      {
+        id: '9.6', chapter: 9,
+        question: 'Biện pháp xây dựng lực lượng dân quân tự vệ trong giai đoạn hiện nay:',
+        options: [
+          'Phát huy sức mạnh tổng hợp của các tổ chức, các lực lượng',
+          'Phát huy sức mạnh tổng hợp trên địa bàn để xây dựng lực lượng dân quân tự vệ',
+          'Phát huy sức mạnh tổng hợp của chính quyền địa phương.'
+        ],
+        answer: 1
+      },
+      {
+        id: '9.7', chapter: 9,
+        question: 'Lực lượng dự bị động viên bao gồm:',
+        options: [
+          'Quân nhân dự bị và phương tiện kỹ thuật dự bị được đăng ký, quản lý vào đơn vị dự bị động viên',
+          'Quân nhân thường trực và phương tiện kỹ thuật',
+          'Sĩ quan và hạ sĩ quan quân đội, công an'
+        ],
+        answer: 0
+      },
+      {
+        id: '9.8', chapter: 9,
+        question: 'Quan điểm, nguyên tắc xây dựng lực lượng dự bị động viên?',
+        options: [
+          'Đảm bảo toàn diện nhưng có trọng tâm, trọng điểm, tập trung nâng cao chất lượng',
+          'Đảm bảo số lượng, chất lượng cao, rộng khắp, sẵn sàng chiến đấu',
+          'Xây dựng lực lượng dự bị động viên đảm bảo đủ, chất lượng cao, xây dựng toàn diện nhưng có trọng tâm trọng điểm'
+        ],
+        answer: 2
+      },
+      {
+        id: '9.9', chapter: 9,
+        question: 'Quan điểm, nguyên tắc xây dựng lực lượng dự bị động viên:',
+        options: [
+          'Đặt dưới sự lãnh đạo của Bộ Quốc Phòng và Ủy ban nhân dân các địa phương.',
+          'Đặt dưới sự lãnh đạo của Ủy ban nhân dân các cấp',
+          'Đặt dưới sự lãnh đạo của Đảng các cấp ở địa phương, bộ, ngành'
+        ],
+        answer: 2
+      },
+      {
+        id: '9.10', chapter: 9,
+        question: 'Nội dung xây dựng lực lượng dự bị động viên:',
+        options: [
+          'Phát triển công nghiệp chú trọng đầu tư ngành công nghiệp quốc phòng (Nhà máy sản xuất vũ khí, trang bị...)',
+          'Tạo nguồn, đăng ký, quản lý lực lượng dự bị động viên.',
+          'Tạo nguồn, đăng ký, tổ chức lực lượng dự bị động viên theo kế hoạch'
+        ],
+        answer: 1
+      },
+      {
+        id: '9.11', chapter: 9,
+        question: 'Công tác huấn luyện đối với lực lượng dự bị động viên?',
+        options: [
+          'Chất lượng, thiết thực, hiệu quả tập trung vào khoa học quân sự hiện đại',
+          'Chất lượng, thiết thực, hiệu quả sát thực tế chiến đấu tại địa bàn.',
+          'Chất lượng, thiết thực, hiệu quả, tập trung có trọng tâm trọng điểm'
+        ],
+        answer: 2
+      },
+      {
+        id: '9.12', chapter: 9,
+        question: 'Động viên công nghiệp Quốc phòng được chuẩn bị:',
+        options: [
+          'Khi bắt đầu chiến tranh',
+          'Từ thời bình',
+          'Trong quá trình chiến tranh'
+        ],
+        answer: 1
+      },
+      {
+        id: '9.13', chapter: 9,
+        question: 'Động viên công nghiệp có áp dụng đối với các doanh nghiệp có vốn đầu tư nước ngoài tại Việt Nam hay không:',
+        options: [
+          'Không',
+          'Có thể động viên một phần hoặc toàn bộ',
+          'Tùy tình hình cụ thể'
+        ],
+        answer: 0
+      },
+      {
+        id: '9.14', chapter: 9,
+        question: 'Quyết định và thông báo quyết định động viên công nghiệp quốc phòng do?',
+        options: [
+          'Chủ tịch Quốc hội quy định',
+          'Chính phủ quy định',
+          'Chủ tịch nước quy định'
+        ],
+        answer: 1
+      },
+      {
+        id: '9.15', chapter: 9,
+        question: 'Nhiệm vụ động viên quốc phòng bao gồm:',
+        options: [
+          'Bảo đảm nhu cầu quốc phòng trong chiến tranh',
+          'Động viên bảo đảm nhu cầu quốc phòng năm đầu chiến tranh.',
+          'Bảo đảm nhu cầu quốc phòng khi chiến tranh kéo dài'
+        ],
+        answer: 1
+      },
+
+      // ==================== BÀI 10 (14 câu) ====================
+      {
+        id: '10.1', chapter: 10,
+        question: 'Tác dụng của phong trào toàn dân bảo vệ an ninh Tổ quốc là?',
+        options: [
+          'Là hình thức cơ bản để đảm bảo an ninh trật tự',
+          'Là hình thức cơ bản để tập hợp, phát huy quyền làm chủ trong lĩnh vực an ninh trật tự',
+          'Là hình thức huy động sức dân trong đảm bảo an ninh trật tự'
+        ],
+        answer: 1
+      },
+      {
+        id: '10.2', chapter: 10,
+        question: 'Đặc điểm của phong trào toàn dân bảo vệ an ninh Tổ quốc?',
+        options: [
+          'Đối tượng tham gia đa dạng, liên quan đến mọi người, mọi tầng lớp XH',
+          'Nhận thức đúng đắn, đầy đủ về trách nhiệm công dân',
+          'Là biện pháp cơ bản của lực lượng Công an nhân dân'
+        ],
+        answer: 0
+      },
+      {
+        id: '10.3', chapter: 10,
+        question: 'Nội dung xây dựng phong trào toàn dân bảo vệ ANTQ là?',
+        options: [
+          'Vận động toàn dân tham gia phòng chống tội phạm trên địa bàn',
+          'Vận động toàn dân tích cực tham gia chương trình quốc gia phòng chống tội phạm',
+          'Vận động toàn dân tích cực phối hợp, giúp đỡ cơ quan chức năng phòng chống tội phạm'
+        ],
+        answer: 1
+      },
+      {
+        id: '10.4', chapter: 10,
+        question: 'Phong trào toàn dân bảo vệ ANTQ là hình thức...',
+        options: [
+          'Cơ bản để tập hợp và phát huy quyền làm chủ của người dân tham gia bảo vệ ANTT',
+          'Hoạt động tự phát của quần chúng nhân dân...',
+          'Vận động toàn dân tích cực phối hợp, giúp đỡ cơ quan chức năng phòng chống tội phạm'
+        ],
+        answer: 0
+      },
+      {
+        id: '10.5', chapter: 10,
+        question: 'Phương pháp xây dựng phong trào toàn dân bảo vệ ANTQ là?',
+        options: [
+          'Xây dựng kế hoạch phát động phong trào',
+          'Xây dựng các mô hình hoạt động đạt hiệu quả cao',
+          'Là biện pháp cơ bản của lực lượng Công an nhân dân'
+        ],
+        answer: 0
+      },
+      {
+        id: '10.6', chapter: 10,
+        question: 'Trách nhiệm của sinh viên trong tham gia xây dựng phong trào toàn dân bảo vệ ANTQ là?',
+        options: [
+          'Việc cần phải làm của mỗi sinh viên để bảo vệ an ninh tổ quốc.',
+          'Tự giác chấp hành các qui định về đảm bảo an ninh trật tự của nhà trường và địa phương',
+          'Tích cực tham gia các hoạt động bảo vệ môi trường của nhà trường và địa phương'
+        ],
+        answer: 1
+      },
+      {
+        id: '10.7', chapter: 10,
+        question: 'Vai trò của quần chúng nhân dân trong bảo vệ ANTQ là?',
+        options: [
+          'Điều tra, xử lý tội phạm',
+          'Có khả năng phát hiện, quản lí, giáo dục để thu hẹp dần các đối tượng phạm tội',
+          'Có khả năng phát hiện, phối hợp xử lý các đối tượng phạm tội'
+        ],
+        answer: 1
+      },
+      {
+        id: '10.8', chapter: 10,
+        question: 'Tổ an ninh nhân dân (tổ tự quản) được tổ chức ở?',
+        options: [
+          'Ấp, khóm, cụm dân cư, làng bản, khu phố...',
+          'Cơ quan doanh nghiệp, phân xưởng, xí nghiệp, công ty',
+          'Tất cả các phương án trên'
+        ],
+        answer: 2
+      },
+      {
+        id: '10.9', chapter: 10,
+        question: 'Chế độ nào xã hội phân chia thành ba đẳng cấp; Vua, Quan, Thứ dân, thứ dân là hạng tiểu nhân hèn kém:',
+        options: [
+          'Chế độ phong kiến',
+          'Chế độ tư sản',
+          'Chế độ nô lệ'
+        ],
+        answer: 0
+      },
+      {
+        id: '10.10', chapter: 10,
+        question: 'Thực tiễn lịch sử dựng nước và giữ nước của cha ông ta đã coi nhân dân là gì?',
+        options: [
+          '“Chở thuyền là dân, lật thuyền cũng là dân, sức dân như nước”.',
+          '“Cách mạng là sự nghiệp của quần chúng nhân dân”',
+          '“Dễ trăm lần không dân cũng chịu, khó vạn lần dân liệu cũng xong”'
+        ],
+        answer: 0
+      },
+      {
+        id: '10.11', chapter: 10,
+        question: 'Phong trào toàn dân bảo vệ an ninh Tổ quốc là một hình thức hoạt động gì?',
+        options: [
+          'Tự giác',
+          'Bắt buộc',
+          'Ai tham gia cũng được'
+        ],
+        answer: 0
+      },
+      {
+        id: '10.12', chapter: 10,
+        question: 'Phong trào toàn dân bảo vệ ANTQ giữ vị trí gì?',
+        options: [
+          'Giữ vị trí chiến lược',
+          'Là hình thức cơ bản',
+          'Nền tảng cơ bản trong sự nghiệp bảo vệ an ninh Quốc gia'
+        ],
+        answer: 0
+      },
+      {
+        id: '10.13', chapter: 10,
+        question: 'Mục đích của phong trào toàn dân bảo vệ ANTQ?',
+        options: [
+          'Xây dựng địa phương không có tệ nạn xã hội',
+          'Xây dựng và bảo vệ Tổ quốc Việt Nam XHCN.',
+          'Cả hai ý trên'
+        ],
+        answer: 1
+      },
+      {
+        id: '10.14', chapter: 10,
+        question: 'Có mấy nội dung, phương pháp xây dựng phong trào toàn dân bảo vệ ANTQ?',
+        options: [
+          '3',
+          '4',
+          '5'
+        ],
+        answer: 0
+      },
+
+      // ==================== BÀI 11 (10 câu) ====================
+      {
+        id: '11.1', chapter: 11,
+        question: 'Nguyên tắc bảo vệ an ninh quốc gia là?',
+        options: [
+          'Chủ động phòng ngừa, đấu tranh làm thất bại mọi âm mưu hoạt động xâm phạm ANQG',
+          'Chủ động đấu tranh làm thất bại mọi âm mưu hoạt động xâm phạm ANQG',
+          'Chủ động đấu tranh với các đối tượng xâm phạm ANQG'
+        ],
+        answer: 0
+      },
+      {
+        id: '11.2', chapter: 11,
+        question: 'Nhiệm vụ bảo vệ ANQG:',
+        options: [
+          'Bảo vệ tuyệt đối an toàn cho các mục tiêu quan trọng về ANQG',
+          'Bảo vệ ANQG trên tất cả các lĩnh vực trong đời sống xã hội',
+          'Bảo vệ các bí mật của Nhà nước, các mục tiêu quan trọng về ANQG'
+        ],
+        answer: 2
+      },
+      {
+        id: '11.3', chapter: 11,
+        question: 'Một trong các nội dung của bảo vệ ANQG là:',
+        options: [
+          'Đảm bảo thông tin an toàn, hiệu quả',
+          'Đấu tranh với các đối tượng tội phạm công nghệ cao',
+          'Bảo vệ an ninh thông tin'
+        ],
+        answer: 2
+      },
+      {
+        id: '11.4', chapter: 11,
+        question: 'Một trong các nội dung của giữ gìn trật tự ATXH là:',
+        options: [
+          'Giữ gìn trật tự nơi công cộng',
+          'Đấu tranh với các loại tội phạm nguy hiểm cho xã hội',
+          'Đảm bảo trật tự đô thị'
+        ],
+        answer: 0
+      },
+      {
+        id: '11.5', chapter: 11,
+        question: 'Khó khăn trong bảo vệ ANQG và giữ gìn trật tự ATXH là:',
+        options: [
+          'Sự gia tăng hoạt động của các tổ chức khủng bố quốc tế',
+          'Các hành động xâm phạm độc lập chủ quyền, toàn vẹn lãnh thổ vẫn tiếp diễn',
+          'Những khó khăn trong phát triển kinh tế xã hội trong giai đoạn hiện nay'
+        ],
+        answer: 1
+      },
+      {
+        id: '11.6', chapter: 11,
+        question: 'Đối tượng xâm phạm ANQG bao gồm:',
+        options: [
+          'Gián điệp, phản động',
+          'Các tổ chức phản động trong và ngoài nước',
+          'Các thế lực thù địch trên thế giới'
+        ],
+        answer: 0
+      },
+      {
+        id: '11.7', chapter: 11,
+        question: 'Nội dung quan điểm trong bảo vệ ANQG và giữ gìn trật tự ATXH là:',
+        options: [
+          'Ưu tiên phát triển kinh tế XH xây dựng tiềm lực quốc gia trên mọi mặt',
+          'Ưu tiên thực hiện các biện pháp tăng cường tiềm lực quân sự quốc gia',
+          'Kết hợp chặt chẽ nhiệm vụ xây dựng và bảo vệ Tổ quốc'
+        ],
+        answer: 2
+      },
+      {
+        id: '11.8', chapter: 11,
+        question: 'Một trong những nhiệm vụ bảo vệ an ninh quốc gia và giữ gìn ATXH:',
+        options: [
+          'Bảo vệ bí mật Nhà nước và các mục tiêu quan trọng về an ninh quốc gia',
+          'Bảo vệ bí mật các tổ chức chính trị - xã hội và các công trình QP-AN',
+          'Bảo vệ bí mật các cấp chính quyền, sự nghiệp CNH-HĐH đất nước'
+        ],
+        answer: 0
+      },
+      {
+        id: '11.9', chapter: 11,
+        question: 'Nội dung bảo vệ an ninh quốc gia bao gồm:',
+        options: [
+          'Chính trị, nội bộ, an ninh kinh tế, Đảng, Nhà nước, nhân dân',
+          'Kinh tế, văn hóa, tư tưởng, dân tộc, và sự nghiệp CNH-HĐH đất nước',
+          'Chính trị xã hội, kinh tế, văn hóa tư tưởng, dân tộc, tôn giáo, biên giới, thông tin'
+        ],
+        answer: 2
+      },
+      {
+        id: '11.10', chapter: 11,
+        question: 'Một trong những quan điểm của Đảng về bảo vệ ANQG và TT ATXH:',
+        options: [
+          'Đảng lãnh đạo trực tiếp, tuyệt đối về mọi mặt bảo vệ an ninh quốc gia',
+          'Kết hợp chặt chẽ nhiệm vụ xây dựng và nhiệm vụ bảo vệ Tổ quốc',
+          'Phát huy quyền làm chủ của nhân dân trên lĩnh vực bảo vệ ANQG, trật tự xã hội'
+        ],
+        answer: 1
+      }
+    ];
+
+    // =========================================================================
+    // TRẠNG THÁI ỨNG DỤNG
+    // =========================================================================
+    const OPTION_LABELS = ['A', 'B', 'C'];
+
+    let state = {
+      selectedChapter: 'all',     // 'all' hoặc số 2..11
+      retryQuestionIds: null,     // null nếu làm thường, hoặc mảng ID nếu đang làm lại các câu sai
+      userAnswers: {},            // { [questionId]: optionIndex (0|1|2) }
+      isSubmitted: false,         // true khi đã bấm Nộp bài
+      lastWrongIds: []            // Lưu danh sách ID câu sai/chưa làm sau khi nộp
+    };
+
+    // Tham chiếu DOM
+    const elFilterBar = document.getElementById('chapter-filter-bar');
+    const elQuizView = document.getElementById('quiz-view');
+    const elResultsView = document.getElementById('results-view');
+    const elQuestionsContainer = document.getElementById('questions-container');
+    const elDesktopNavGrid = document.getElementById('desktop-nav-grid');
+    const elMobileNavGrid = document.getElementById('mobile-nav-grid');
+
+    const elHeaderProgressText = document.getElementById('header-progress-text');
+    const elHeaderProgressBadge = document.getElementById('header-progress-badge');
+    const elHeaderSubmitBtn = document.getElementById('header-submit-btn');
+    const elTopProgressFill = document.getElementById('top-progress-fill');
+    const elTopProgressTrack = document.getElementById('top-progress-track');
+    const elBottomProgressText = document.getElementById('bottom-progress-text');
+
+    const elSidebarProgressPercent = document.getElementById('sidebar-progress-percent');
+    const elSidebarProgressFill = document.getElementById('sidebar-progress-fill');
+    const elSidebarAnsweredCount = document.getElementById('sidebar-answered-count');
+    const elSidebarUnansweredCount = document.getElementById('sidebar-unanswered-count');
+    const elMobileDrawerProgress = document.getElementById('mobile-drawer-progress');
+
+    const elCurrentScopeBadge = document.getElementById('current-scope-badge');
+    const elCurrentScopeTitle = document.getElementById('current-scope-title');
+    const elRetryBanner = document.getElementById('retry-banner');
+    const elRetryBannerTitle = document.getElementById('retry-banner-title');
+
+    // Mobile drawer elements
+    const elMobileNavDrawer = document.getElementById('mobile-nav-drawer');
+    const elMobileNavToggle = document.getElementById('mobile-nav-toggle');
+    const elMobileNavClose = document.getElementById('mobile-nav-close');
+    const elMobileNavBackdrop = document.getElementById('mobile-nav-backdrop');
+
+    // Confirm modal elements
+    const elConfirmModal = document.getElementById('confirm-modal');
+    const elConfirmModalTitle = document.getElementById('confirm-modal-title');
+    const elConfirmModalMessage = document.getElementById('confirm-modal-message');
+    const elConfirmModalCancel = document.getElementById('confirm-modal-cancel');
+    const elConfirmModalOk = document.getElementById('confirm-modal-ok');
+    const elConfirmModalBackdrop = document.getElementById('confirm-modal-backdrop');
+    let confirmCallback = null;
+
+    // =========================================================================
+    // HÀM TIỆN ÍCH
+    // =========================================================================
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /** Lấy danh sách câu hỏi hiện tại dựa trên bộ lọc bài hoặc chế độ làm lại câu sai */
+    function getActiveQuestions() {
+      if (state.retryQuestionIds && state.retryQuestionIds.length > 0) {
+        const idSet = new Set(state.retryQuestionIds);
+        return ALL_QUESTIONS.filter(q => idSet.has(q.id));
+      }
+      if (state.selectedChapter === 'all') {
+        return ALL_QUESTIONS;
+      }
+      return ALL_QUESTIONS.filter(q => q.chapter === state.selectedChapter);
+    }
+
+    /** Đếm số câu của từng bài để hiển thị trên nút lọc */
+    function getChapterCount(chapterId) {
+      if (chapterId === 'all') return ALL_QUESTIONS.length;
+      return ALL_QUESTIONS.filter(q => q.chapter === chapterId).length;
+    }
+
+    /** Hiển thị hộp thoại xác nhận tùy chỉnh (không dùng alert/confirm) */
+    function openConfirmModal(title, message, okText, onConfirm) {
+      elConfirmModalTitle.textContent = title;
+      elConfirmModalMessage.textContent = message;
+      elConfirmModalOk.textContent = okText;
+      confirmCallback = onConfirm;
+      elConfirmModal.classList.remove('hidden');
+    }
+
+    function closeConfirmModal() {
+      elConfirmModal.classList.add('hidden');
+      confirmCallback = null;
+    }
+
+    // =========================================================================
+    // RENDER GIAO DIỆN
+    // =========================================================================
+
+    /** Render thanh chọn bài học */
+    function renderFilterBar() {
+      elFilterBar.innerHTML = CHAPTERS.map(ch => {
+        const isActive = state.selectedChapter === ch.id && !state.retryQuestionIds;
+        const count = getChapterCount(ch.id);
+        return `
+          <button
+            type="button"
+            data-chapter="${ch.id}"
+            class="chapter-tab shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition border ${
+              isActive
+                ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
+            }"
+          >
+            ${escapeHTML(ch.shortName)}
+            <span class="ml-1 text-[11px] ${isActive ? 'text-slate-300' : 'text-slate-400'}">(${count})</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    /** Render danh sách câu hỏi và bảng điều hướng nhanh */
+    function renderQuiz() {
+      const questions = getActiveQuestions();
+      const chapterMeta = CHAPTERS.find(c => c.id === state.selectedChapter) || CHAPTERS[0];
+
+      // Cập nhật tiêu đề khu vực làm bài
+      if (state.retryQuestionIds) {
+        elRetryBanner.classList.remove('hidden');
+        elRetryBannerTitle.textContent = `Đang làm lại ${questions.length} câu làm sai / chưa làm`;
+        elCurrentScopeBadge.textContent = 'Ôn luyện câu sai';
+        elCurrentScopeTitle.textContent = `${chapterMeta.shortName === 'Tất cả' ? 'Tất cả các bài' : chapterMeta.shortName} – Làm lại ${questions.length} câu`;
+      } else {
+        elRetryBanner.classList.add('hidden');
+        elCurrentScopeBadge.textContent = chapterMeta.shortName === 'Tất cả'
+          ? `Tất cả (${questions.length} câu)`
+          : `${chapterMeta.shortName} (${questions.length} câu)`;
+        elCurrentScopeTitle.textContent = chapterMeta.fullName;
+      }
+
+      // Render câu hỏi (có nhóm tiêu đề bài khi xem "Tất cả")
+      let html = '';
+      let lastChapter = null;
+
+      questions.forEach((q, idx) => {
+        if ((state.selectedChapter === 'all' || state.retryQuestionIds) && q.chapter !== lastChapter) {
+          const chInfo = CHAPTERS.find(c => c.id === q.chapter);
+          html += `
+            <div class="pt-2 pb-1">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-800 text-white text-xs font-bold tracking-wide shadow-xs">
+                <span>${escapeHTML(chInfo ? chInfo.fullName : 'Bài ' + q.chapter)}</span>
+              </div>
+            </div>
+          `;
+          lastChapter = q.chapter;
+        }
+
+        const selectedOpt = state.userAnswers[q.id];
+        html += `
+          <article id="q-card-${q.id}" class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs transition hover:border-slate-300 scroll-mt-36">
+            <div class="flex items-start gap-3 mb-3.5">
+              <span class="shrink-0 inline-flex items-center justify-center px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100">
+                Câu ${escapeHTML(q.id)}
+              </span>
+              <h3 class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
+                ${escapeHTML(q.question)}
+              </h3>
+            </div>
+
+            <div class="space-y-2.5">
+              ${q.options.map((optText, optIdx) => {
+                const isSelected = selectedOpt === optIdx;
+                return `
+                  <button
+                    type="button"
+                    data-qid="${q.id}"
+                    data-opt="${optIdx}"
+                    class="option-btn w-full text-left p-3 sm:p-3.5 rounded-xl border transition flex items-start gap-3 cursor-pointer ${
+                      isSelected
+                        ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500 text-slate-900'
+                        : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700'
+                    }"
+                  >
+                    <span class="shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center mt-0.5 transition ${
+                      isSelected
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-slate-100 text-slate-600 border border-slate-300'
+                    }">
+                      ${OPTION_LABELS[optIdx]}
+                    </span>
+                    <span class="text-sm leading-relaxed flex-1">${escapeHTML(optText)}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </article>
+        `;
+      });
+
+      elQuestionsContainer.innerHTML = html;
+
+      // Render bảng điều hướng nhanh (Desktop & Mobile)
+      const navButtonsHtml = questions.map(q => {
+        const isAnswered = state.userAnswers[q.id] !== undefined;
+        return `
+          <button
+            type="button"
+            data-jump-qid="${q.id}"
+            title="Đi tới Câu ${escapeHTML(q.id)}"
+            class="nav-jump-btn h-9 rounded-lg text-xs font-semibold transition border flex items-center justify-center ${
+              isAnswered
+                ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700'
+                : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-200'
+            }"
+          >
+            ${escapeHTML(q.id)}
+          </button>
+        `;
+      }).join('');
+
+      elDesktopNavGrid.innerHTML = navButtonsHtml;
+      elMobileNavGrid.innerHTML = navButtonsHtml;
+
+      updateProgressUI();
+    }
+
+    /** Cập nhật thanh tiến độ & trạng thái nút điều hướng mà không cần render lại toàn bộ DOM */
+    function updateProgressUI() {
+      const questions = getActiveQuestions();
+      const total = questions.length;
+      let answered = 0;
+      questions.forEach(q => {
+        if (state.userAnswers[q.id] !== undefined) answered++;
+      });
+      const unanswered = total - answered;
+      const percent = total > 0 ? Math.round((answered / total) * 100) : 0;
+
+      elHeaderProgressText.textContent = `Đã chọn: ${answered} / ${total}`;
+      elBottomProgressText.textContent = `${answered} / ${total} câu (${percent}%)`;
+      elTopProgressFill.style.width = `${percent}%`;
+
+      elSidebarProgressPercent.textContent = `${percent}%`;
+      elSidebarProgressFill.style.width = `${percent}%`;
+      elSidebarAnsweredCount.textContent = answered;
+      elSidebarUnansweredCount.textContent = unanswered;
+      elMobileDrawerProgress.textContent = `Đã chọn: ${answered} / ${total} (${percent}%)`;
+    }
+
+    /** Cập nhật giao diện trực tiếp của một câu hỏi khi người dùng tích chọn */
+    function updateQuestionSelectionUI(qid, selectedOptIdx) {
+      const card = document.getElementById(`q-card-${qid}`);
+      if (card) {
+        const buttons = card.querySelectorAll('.option-btn');
+        buttons.forEach(btn => {
+          const optIdx = Number(btn.dataset.opt);
+          const circle = btn.querySelector('span');
+          const isSelected = optIdx === selectedOptIdx;
+
+          if (isSelected) {
+            btn.className = 'option-btn w-full text-left p-3 sm:p-3.5 rounded-xl border transition flex items-start gap-3 cursor-pointer bg-blue-50 border-blue-500 ring-1 ring-blue-500 text-slate-900';
+            circle.className = 'shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center mt-0.5 transition bg-blue-600 text-white';
+          } else {
+            btn.className = 'option-btn w-full text-left p-3 sm:p-3.5 rounded-xl border transition flex items-start gap-3 cursor-pointer bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700';
+            circle.className = 'shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center mt-0.5 transition bg-slate-100 text-slate-600 border border-slate-300';
+          }
+        });
+      }
+
+      // Cập nhật màu nút tương ứng ở cả desktop & mobile navigator
+      document.querySelectorAll(`.nav-jump-btn[data-jump-qid="${qid}"]`).forEach(navBtn => {
+        navBtn.className = 'nav-jump-btn h-9 rounded-lg text-xs font-semibold transition border flex items-center justify-center bg-blue-600 text-white border-blue-600 hover:bg-blue-700';
+      });
+
+      updateProgressUI();
+    }
+
+    /** Chấm điểm và hiển thị màn hình kết quả */
+    function submitQuiz() {
+      const questions = getActiveQuestions();
+      const total = questions.length;
+      let correctCount = 0;
+      let wrongCount = 0;
+      let unansweredCount = 0;
+      const wrongOrUnansweredList = [];
+
+      questions.forEach(q => {
+        const chosen = state.userAnswers[q.id];
+        if (chosen === undefined) {
+          unansweredCount++;
+          wrongOrUnansweredList.push({ question: q, chosen: undefined, status: 'unanswered' });
+        } else if (chosen === q.answer) {
+          correctCount++;
+        } else {
+          wrongCount++;
+          wrongOrUnansweredList.push({ question: q, chosen: chosen, status: 'wrong' });
+        }
+      });
+
+      state.isSubmitted = true;
+      state.lastWrongIds = wrongOrUnansweredList.map(item => item.question.id);
+
+      const percent = total > 0 ? ((correctCount / total) * 100).toFixed(1) : '0.0';
+      const chapterMeta = CHAPTERS.find(c => c.id === state.selectedChapter) || CHAPTERS[0];
+
+      // Cập nhật bảng tổng kết
+      document.getElementById('result-scope-label').textContent = state.retryQuestionIds
+        ? 'Kết quả lượt làm lại các câu sai'
+        : `Kết quả: ${chapterMeta.shortName === 'Tất cả' ? 'Tất cả các bài (Bài 2 – Bài 11)' : chapterMeta.shortName}`;
+
+      document.getElementById('result-percentage').textContent = `${percent}%`;
+      document.getElementById('result-score-fraction').textContent = `${correctCount}/${total}`;
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-correct').textContent = correctCount;
+      document.getElementById('stat-wrong').textContent = wrongCount;
+      document.getElementById('stat-unanswered').textContent = unansweredCount;
+
+      const headline = document.getElementById('result-headline');
+      const subtext = document.getElementById('result-subtext');
+      if (wrongOrUnansweredList.length === 0) {
+        headline.textContent = 'Xuất sắc! Bạn trả lời đúng 100%!';
+        subtext.textContent = 'Bạn đã nắm vững toàn bộ kiến thức trong phần ôn tập này.';
+      } else if (Number(percent) >= 80) {
+        headline.textContent = 'Làm bài rất tốt!';
+        subtext.textContent = `Bạn chỉ còn ${wrongOrUnansweredList.length} câu cần xem lại dưới đây.`;
+      } else {
+        headline.textContent = 'Hoàn thành bài làm!';
+        subtext.textContent = `Hãy xem kỹ đáp án của ${wrongOrUnansweredList.length} câu làm sai / chưa làm bên dưới rồi làm lại nhé.`;
+      }
+
+      // Nút làm lại các câu sai
+      const retryBtn = document.getElementById('retry-wrong-btn');
+      const retryBtnText = document.getElementById('retry-wrong-btn-text');
+      if (wrongOrUnansweredList.length > 0) {
+        retryBtn.classList.remove('hidden');
+        retryBtnText.textContent = `Làm lại các câu sai (${wrongOrUnansweredList.length} câu)`;
+      } else {
+        retryBtn.classList.add('hidden');
+      }
+
+      // Render danh sách câu làm sai & chưa làm
+      const wrongContainer = document.getElementById('wrong-questions-container');
+      const wrongHeading = document.getElementById('wrong-list-heading');
+
+      if (wrongOrUnansweredList.length === 0) {
+        wrongHeading.textContent = 'Không có câu sai nào!';
+        wrongContainer.innerHTML = `
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center">
+            <div class="w-14 h-14 mx-auto rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h4 class="text-lg font-bold text-emerald-900">Tuyệt vời! Bạn đạt điểm tuyệt đối.</h4>
+            <p class="text-sm text-emerald-700 mt-1">Bạn có thể chọn bài khác ở thanh phía trên để tiếp tục ôn tập.</p>
+          </div>
+        `;
+      } else {
+        wrongHeading.textContent = `Chi tiết những câu làm sai & chưa làm (${wrongOrUnansweredList.length} câu)`;
+        wrongContainer.innerHTML = wrongOrUnansweredList.map(({ question: q, chosen, status }) => {
+          const statusBadge = status === 'wrong'
+            ? '<span class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-700 text-xs font-bold">Làm sai</span>'
+            : '<span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 text-xs font-bold">Chưa làm</span>';
+
+          return `
+            <article class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-bold">Bài ${q.chapter}</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold">Câu ${escapeHTML(q.id)}</span>
+                </div>
+                ${statusBadge}
+              </div>
+
+              <h4 class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed mb-4">
+                ${escapeHTML(q.question)}
+              </h4>
+
+              <div class="space-y-2.5">
+                ${q.options.map((optText, optIdx) => {
+                  const isCorrect = optIdx === q.answer;
+                  const isUserWrongChoice = status === 'wrong' && optIdx === chosen;
+
+                  let cardClass = 'bg-slate-50 border-slate-200 text-slate-500';
+                  let circleClass = 'bg-slate-200 text-slate-600';
+                  let tagHtml = '';
+
+                  if (isCorrect) {
+                    cardClass = 'bg-emerald-50 border-emerald-500 ring-1 ring-emerald-500 text-emerald-950 font-medium';
+                    circleClass = 'bg-emerald-600 text-white';
+                    tagHtml = '<span class="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[11px] font-bold">✓ Đáp án đúng</span>';
+                  } else if (isUserWrongChoice) {
+                    cardClass = 'bg-rose-50 border-rose-400 ring-1 ring-rose-400 text-rose-950 font-medium';
+                    circleClass = 'bg-rose-600 text-white';
+                    tagHtml = '<span class="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-600 text-white text-[11px] font-bold">✗ Bạn chọn</span>';
+                  }
+
+                  return `
+                    <div class="p-3 sm:p-3.5 rounded-xl border flex items-start gap-3 ${cardClass}">
+                      <span class="shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center mt-0.5 ${circleClass}">
+                        ${OPTION_LABELS[optIdx]}
+                      </span>
+                      <div class="flex-1 flex flex-wrap items-start justify-between gap-2">
+                        <span class="text-sm leading-relaxed">${escapeHTML(optText)}</span>
+                        ${tagHtml}
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+
+              ${status === 'unanswered' ? `
+                <p class="mt-3 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                  Bạn chưa chọn đáp án cho câu hỏi này.
+                </p>
+              ` : ''}
+            </article>
+          `;
+        }).join('');
+      }
+
+      // Chuyển sang màn hình kết quả
+      elQuizView.classList.add('hidden');
+      elResultsView.classList.remove('hidden');
+      elHeaderSubmitBtn.classList.add('hidden');
+      elMobileNavToggle.classList.add('hidden');
+      elHeaderProgressBadge.classList.add('hidden');
+      elTopProgressTrack.classList.add('hidden');
+      elRetryBanner.classList.add('hidden');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /** Chuyển về chế độ làm bài */
+    function showQuizMode() {
+      state.isSubmitted = false;
+      elResultsView.classList.add('hidden');
+      elQuizView.classList.remove('hidden');
+      elHeaderSubmitBtn.classList.remove('hidden');
+      elMobileNavToggle.classList.remove('hidden');
+      elHeaderProgressBadge.classList.remove('hidden');
+      elTopProgressTrack.classList.remove('hidden');
+      renderFilterBar();
+      renderQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /** Xử lý khi người dùng bấm Nộp bài */
+    function handleSubmitRequest() {
+      const questions = getActiveQuestions();
+      const total = questions.length;
+      let answered = 0;
+      questions.forEach(q => {
+        if (state.userAnswers[q.id] !== undefined) answered++;
+      });
+      const unanswered = total - answered;
+
+      if (unanswered > 0) {
+        openConfirmModal(
+          'Bạn vẫn còn câu chưa làm',
+          `Bạn mới chọn ${answered}/${total} câu (còn ${unanswered} câu chưa chọn đáp án). Bạn có chắc chắn muốn nộp bài ngay bây giờ không?`,
+          'Vẫn nộp bài',
+          () => {
+            closeMobileDrawer();
+            submitQuiz();
+          }
+        );
+      } else {
+        closeMobileDrawer();
+        submitQuiz();
+      }
+    }
+
+    /** Đóng / mở drawer điều hướng trên điện thoại */
+    function openMobileDrawer() {
+      elMobileNavDrawer.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeMobileDrawer() {
+      elMobileNavDrawer.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    /** Nhảy tới một câu hỏi cụ thể */
+    function jumpToQuestion(qid) {
+      closeMobileDrawer();
+      const target = document.getElementById(`q-card-${qid}`);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target.classList.remove('jump-highlight');
+        void target.offsetWidth; // trigger reflow
+        target.classList.add('jump-highlight');
+      }
+    }
+
+    // =========================================================================
+    // GẮN SỰ KIỆN
+    // =========================================================================
+
+    // Chọn bộ lọc bài học
+    elFilterBar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.chapter-tab');
+      if (!btn) return;
+      const raw = btn.dataset.chapter;
+      state.selectedChapter = raw === 'all' ? 'all' : Number(raw);
+      state.retryQuestionIds = null;
+      showQuizMode();
+    });
+
+    // Tích chọn đáp án câu hỏi (event delegation)
+    elQuestionsContainer.addEventListener('click', (e) => {
+      const btn = e.target.closest('.option-btn');
+      if (!btn || state.isSubmitted) return;
+      const qid = btn.dataset.qid;
+      const optIdx = Number(btn.dataset.opt);
+      state.userAnswers[qid] = optIdx;
+      updateQuestionSelectionUI(qid, optIdx);
+    });
+
+    // Nhảy nhanh câu hỏi trên Desktop & Mobile
+    elDesktopNavGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.nav-jump-btn');
+      if (btn) jumpToQuestion(btn.dataset.jumpQid);
+    });
+
+    elMobileNavGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.nav-jump-btn');
+      if (btn) jumpToQuestion(btn.dataset.jumpQid);
+    });
+
+    // Các nút Nộp bài
+    document.getElementById('header-submit-btn').addEventListener('click', handleSubmitRequest);
+    document.getElementById('bottom-submit-btn').addEventListener('click', handleSubmitRequest);
+    document.getElementById('sidebar-submit-btn').addEventListener('click', handleSubmitRequest);
+    document.getElementById('mobile-drawer-submit-btn').addEventListener('click', handleSubmitRequest);
+
+    // Nút Làm lại từ đầu (trong lúc làm bài)
+    document.getElementById('reset-quiz-btn').addEventListener('click', () => {
+      const questions = getActiveQuestions();
+      const hasAnyAnswer = questions.some(q => state.userAnswers[q.id] !== undefined);
+      if (!hasAnyAnswer) return;
+
+      openConfirmModal(
+        'Làm lại từ đầu?',
+        'Toàn bộ các đáp án bạn đã chọn trong danh sách câu hỏi hiện tại sẽ bị xóa để bạn làm lại.',
+        'Xóa & Làm lại',
+        () => {
+          questions.forEach(q => {
+            delete state.userAnswers[q.id];
+          });
+          renderQuiz();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      );
+    });
+
+    // Nút Làm lại các câu sai (ở màn hình kết quả)
+    document.getElementById('retry-wrong-btn').addEventListener('click', () => {
+      if (!state.lastWrongIds.length) return;
+      state.retryQuestionIds = [...state.lastWrongIds];
+      // Xóa đáp án cũ của các câu cần làm lại
+      state.retryQuestionIds.forEach(id => {
+        delete state.userAnswers[id];
+      });
+      showQuizMode();
+    });
+
+    // Nút Làm lại từ đầu (ở màn hình kết quả)
+    document.getElementById('result-restart-btn').addEventListener('click', () => {
+      state.retryQuestionIds = null;
+      const questions = getActiveQuestions();
+      questions.forEach(q => {
+        delete state.userAnswers[q.id];
+      });
+      showQuizMode();
+    });
+
+    // Nút thoát chế độ làm lại câu sai
+    document.getElementById('exit-retry-btn').addEventListener('click', () => {
+      state.retryQuestionIds = null;
+      showQuizMode();
+    });
+
+    // Mobile drawer controls
+    elMobileNavToggle.addEventListener('click', openMobileDrawer);
+    elMobileNavClose.addEventListener('click', closeMobileDrawer);
+    elMobileNavBackdrop.addEventListener('click', closeMobileDrawer);
+
+    // Confirm modal controls
+    elConfirmModalCancel.addEventListener('click', closeConfirmModal);
+    elConfirmModalBackdrop.addEventListener('click', closeConfirmModal);
+    elConfirmModalOk.addEventListener('click', () => {
+      const cb = confirmCallback;
+      closeConfirmModal();
+      if (typeof cb === 'function') cb();
+    });
+
+    // Khởi tạo ứng dụng
+    renderFilterBar();
+    renderQuiz();
+  </script>
+</body>
+</html>
