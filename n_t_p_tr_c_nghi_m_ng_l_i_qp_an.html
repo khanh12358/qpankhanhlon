@@ -25,7 +25,6 @@
     html {
       scroll-behavior: smooth;
     }
-    /* Custom subtle scrollbar for navigation panels */
     .custom-scrollbar::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -41,7 +40,6 @@
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
     }
-    /* Highlight pulse when jumping to a question */
     @keyframes highlightPulse {
       0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45); }
       70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
@@ -67,7 +65,7 @@
           </div>
           <div>
             <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">Trắc Nghiệm Đường Lối QP-AN</h1>
-            <p class="text-xs text-slate-500">Ôn tập đầy đủ từ Bài 2 đến Bài 11</p>
+            <p class="text-xs text-slate-500">Ôn tập đầy đủ từ Bài 2 đến Bài 11 (Có tính năng check từng câu)</p>
           </div>
         </div>
 
@@ -96,7 +94,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            <span>Nộp bài</span>
+            <span>Nộp bài tổng kết</span>
           </button>
         </div>
       </div>
@@ -147,7 +145,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span>Chọn hết đáp án rồi bấm <strong>Nộp bài</strong> để xem kết quả</span>
+            <span>Có thể bấm nút <strong>Kiểm tra đáp án</strong> ngay từng câu hoặc bấm <strong>Nộp bài tổng kết</strong> ở trên</span>
           </div>
         </div>
 
@@ -340,7 +338,7 @@
     </div>
   </div>
 
-  <!-- Custom Confirmation Modal (No native alert/confirm) -->
+  <!-- Custom Confirmation Modal -->
   <div id="confirm-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true">
     <div id="confirm-modal-backdrop" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs"></div>
     <div class="relative bg-white rounded-2xl shadow-xl border border-slate-200 max-w-md w-full p-6 z-10">
@@ -372,9 +370,6 @@
   </footer>
 
   <script>
-    // =========================================================================
-    // DỮ LIỆU ĐẦY ĐỦ 196 CÂU HỎI (BÀI 2 ĐẾN BÀI 11)
-    // =========================================================================
     const CHAPTERS = [
       { id: 'all', shortName: 'Tất cả', fullName: 'Toàn bộ câu hỏi ôn tập (Bài 2 – Bài 11)' },
       { id: 2, shortName: 'Bài 2', fullName: 'BÀI 2: QUAN ĐIỂM CƠ BẢN CỦA CHỦ NGHĨA MÁC – LÊNIN, TƯ TƯỞNG HỒ CHÍ MINH VỀ CHIẾN TRANH, QUÂN ĐỘI VÀ BẢO VỆ TỔ QUỐC' },
@@ -390,7 +385,6 @@
     ];
 
     const ALL_QUESTIONS = [
-      // ==================== BÀI 2 (21 câu) ====================
       {
         id: '2.1', chapter: 2,
         question: 'Theo quan điểm chủ nghĩa Mác- Lênin về chiến tranh thì bản chất chiến tranh ngày nay:',
@@ -601,8 +595,6 @@
         ],
         answer: 2
       },
-
-      // ==================== BÀI 3 (23 câu) ====================
       {
         id: '3.1', chapter: 3,
         question: 'Nội dung xây dựng thế trận QPTD – ANND là:',
@@ -833,8 +825,6 @@
         ],
         answer: 0
       },
-
-      // ==================== BÀI 4 (36 câu) ====================
       {
         id: '4.1', chapter: 4,
         question: 'Khái niệm chiến tranh nhân dân chỉ ra: Chiến tranh nhân dân là...?',
@@ -1195,8 +1185,6 @@
         ],
         answer: 1
       },
-
-      // ==================== BÀI 5 (20 câu) ====================
       {
         id: '5.1', chapter: 5,
         question: 'Nhiệm vụ của lực lượng vũ trang nhân dân Việt Nam là?',
@@ -1397,8 +1385,6 @@
         ],
         answer: 0
       },
-
-      // ==================== BÀI 6 (20 câu) ====================
       {
         id: '6.1', chapter: 6,
         question: 'Truyền thống lịch sử đã chứng minh: Dựng nước đi đôi với giữ nước đã trở thành...?',
@@ -1599,8 +1585,6 @@
         ],
         answer: 1
       },
-
-      // ==================== BÀI 7 (26 câu) ====================
       {
         id: '7.1', chapter: 7,
         question: 'Nghệ thuật quân sự là:',
@@ -1861,8 +1845,6 @@
         ],
         answer: 1
       },
-
-      // ==================== BÀI 8 (11 câu) ====================
       {
         id: '8.1', chapter: 8,
         question: 'Chủ quyền quốc gia là quyền...của một quốc gia trong phạm vi lãnh thổ của một quốc gia đó?',
@@ -1973,8 +1955,6 @@
         ],
         answer: 1
       },
-
-      // ==================== BÀI 9 (15 câu) ====================
       {
         id: '9.1', chapter: 9,
         question: 'Lực lượng tự vệ được tổ chức ở:',
@@ -2125,8 +2105,6 @@
         ],
         answer: 1
       },
-
-      // ==================== BÀI 10 (14 câu) ====================
       {
         id: '10.1', chapter: 10,
         question: 'Tác dụng của phong trào toàn dân bảo vệ an ninh Tổ quốc là?',
@@ -2267,8 +2245,6 @@
         ],
         answer: 0
       },
-
-      // ==================== BÀI 11 (10 câu) ====================
       {
         id: '11.1', chapter: 11,
         question: 'Nguyên tắc bảo vệ an ninh quốc gia là?',
@@ -2371,20 +2347,17 @@
       }
     ];
 
-    // =========================================================================
-    // TRẠNG THÁI ỨNG DỤNG
-    // =========================================================================
     const OPTION_LABELS = ['A', 'B', 'C'];
 
     let state = {
-      selectedChapter: 'all',     // 'all' hoặc số 2..11
-      retryQuestionIds: null,     // null nếu làm thường, hoặc mảng ID nếu đang làm lại các câu sai
-      userAnswers: {},            // { [questionId]: optionIndex (0|1|2) }
-      isSubmitted: false,         // true khi đã bấm Nộp bài
-      lastWrongIds: []            // Lưu danh sách ID câu sai/chưa làm sau khi nộp
+      selectedChapter: 'all',
+      retryQuestionIds: null,
+      userAnswers: {},            // Lưu đáp án người dùng đã chọn
+      checkedStatus: {},          // Lưu trạng thái đã check hay chưa cho từng câu: { [qid]: true }
+      isSubmitted: false,
+      lastWrongIds: []
     };
 
-    // Tham chiếu DOM
     const elFilterBar = document.getElementById('chapter-filter-bar');
     const elQuizView = document.getElementById('quiz-view');
     const elResultsView = document.getElementById('results-view');
@@ -2410,13 +2383,11 @@
     const elRetryBanner = document.getElementById('retry-banner');
     const elRetryBannerTitle = document.getElementById('retry-banner-title');
 
-    // Mobile drawer elements
     const elMobileNavDrawer = document.getElementById('mobile-nav-drawer');
     const elMobileNavToggle = document.getElementById('mobile-nav-toggle');
     const elMobileNavClose = document.getElementById('mobile-nav-close');
     const elMobileNavBackdrop = document.getElementById('mobile-nav-backdrop');
 
-    // Confirm modal elements
     const elConfirmModal = document.getElementById('confirm-modal');
     const elConfirmModalTitle = document.getElementById('confirm-modal-title');
     const elConfirmModalMessage = document.getElementById('confirm-modal-message');
@@ -2425,9 +2396,6 @@
     const elConfirmModalBackdrop = document.getElementById('confirm-modal-backdrop');
     let confirmCallback = null;
 
-    // =========================================================================
-    // HÀM TIỆN ÍCH
-    // =========================================================================
     function escapeHTML(str) {
       return String(str)
         .replace(/&/g, '&amp;')
@@ -2437,7 +2405,6 @@
         .replace(/'/g, '&#39;');
     }
 
-    /** Lấy danh sách câu hỏi hiện tại dựa trên bộ lọc bài hoặc chế độ làm lại câu sai */
     function getActiveQuestions() {
       if (state.retryQuestionIds && state.retryQuestionIds.length > 0) {
         const idSet = new Set(state.retryQuestionIds);
@@ -2449,13 +2416,11 @@
       return ALL_QUESTIONS.filter(q => q.chapter === state.selectedChapter);
     }
 
-    /** Đếm số câu của từng bài để hiển thị trên nút lọc */
     function getChapterCount(chapterId) {
       if (chapterId === 'all') return ALL_QUESTIONS.length;
       return ALL_QUESTIONS.filter(q => q.chapter === chapterId).length;
     }
 
-    /** Hiển thị hộp thoại xác nhận tùy chỉnh (không dùng alert/confirm) */
     function openConfirmModal(title, message, okText, onConfirm) {
       elConfirmModalTitle.textContent = title;
       elConfirmModalMessage.textContent = message;
@@ -2469,11 +2434,6 @@
       confirmCallback = null;
     }
 
-    // =========================================================================
-    // RENDER GIAO DIỆN
-    // =========================================================================
-
-    /** Render thanh chọn bài học */
     function renderFilterBar() {
       elFilterBar.innerHTML = CHAPTERS.map(ch => {
         const isActive = state.selectedChapter === ch.id && !state.retryQuestionIds;
@@ -2495,12 +2455,10 @@
       }).join('');
     }
 
-    /** Render danh sách câu hỏi và bảng điều hướng nhanh */
     function renderQuiz() {
       const questions = getActiveQuestions();
       const chapterMeta = CHAPTERS.find(c => c.id === state.selectedChapter) || CHAPTERS[0];
 
-      // Cập nhật tiêu đề khu vực làm bài
       if (state.retryQuestionIds) {
         elRetryBanner.classList.remove('hidden');
         elRetryBannerTitle.textContent = `Đang làm lại ${questions.length} câu làm sai / chưa làm`;
@@ -2514,11 +2472,10 @@
         elCurrentScopeTitle.textContent = chapterMeta.fullName;
       }
 
-      // Render câu hỏi (có nhóm tiêu đề bài khi xem "Tất cả")
       let html = '';
       let lastChapter = null;
 
-      questions.forEach((q, idx) => {
+      questions.forEach((q) => {
         if ((state.selectedChapter === 'all' || state.retryQuestionIds) && q.chapter !== lastChapter) {
           const chInfo = CHAPTERS.find(c => c.id === q.chapter);
           html += `
@@ -2532,36 +2489,52 @@
         }
 
         const selectedOpt = state.userAnswers[q.id];
+        const isChecked = state.checkedStatus[q.id] === true;
+
         html += `
           <article id="q-card-${q.id}" class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs transition hover:border-slate-300 scroll-mt-36">
-            <div class="flex items-start gap-3 mb-3.5">
-              <span class="shrink-0 inline-flex items-center justify-center px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100">
-                Câu ${escapeHTML(q.id)}
-              </span>
-              <h3 class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
-                ${escapeHTML(q.question)}
-              </h3>
+            <div class="flex items-start justify-between gap-3 mb-3.5">
+              <div class="flex items-start gap-3">
+                <span class="shrink-0 inline-flex items-center justify-center px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100">
+                  Câu ${escapeHTML(q.id)}
+                </span>
+                <h3 class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
+                  ${escapeHTML(q.question)}
+                </h3>
+              </div>
             </div>
 
-            <div class="space-y-2.5">
+            <div class="space-y-2.5 options-list" data-qid="${q.id}">
               ${q.options.map((optText, optIdx) => {
                 const isSelected = selectedOpt === optIdx;
+                let btnStyle = isSelected
+                  ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500 text-slate-900'
+                  : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700';
+                let circleStyle = isSelected
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-slate-100 text-slate-600 border border-slate-300';
+
+                if (isChecked) {
+                  if (optIdx === q.answer) {
+                    btnStyle = 'bg-emerald-50 border-emerald-500 ring-1 ring-emerald-500 text-emerald-950 font-medium';
+                    circleStyle = 'bg-emerald-600 text-white';
+                  } else if (isSelected) {
+                    btnStyle = 'bg-rose-50 border-rose-400 ring-1 ring-rose-400 text-rose-950 font-medium';
+                    circleStyle = 'bg-rose-600 text-white';
+                  } else {
+                    btnStyle = 'bg-slate-50 border-slate-200 text-slate-400 opacity-60';
+                    circleStyle = 'bg-slate-200 text-slate-400';
+                  }
+                }
+
                 return `
                   <button
                     type="button"
                     data-qid="${q.id}"
                     data-opt="${optIdx}"
-                    class="option-btn w-full text-left p-3 sm:p-3.5 rounded-xl border transition flex items-start gap-3 cursor-pointer ${
-                      isSelected
-                        ? 'bg-blue-50 border-blue-500 ring-1 ring-blue-500 text-slate-900'
-                        : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700'
-                    }"
+                    class="option-btn w-full text-left p-3 sm:p-3.5 rounded-xl border transition flex items-start gap-3 ${isChecked ? 'cursor-default pointer-events-none' : 'cursor-pointer'} ${btnStyle}"
                   >
-                    <span class="shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center mt-0.5 transition ${
-                      isSelected
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-slate-100 text-slate-600 border border-slate-300'
-                    }">
+                    <span class="shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center mt-0.5 transition ${circleStyle}">
                       ${OPTION_LABELS[optIdx]}
                     </span>
                     <span class="text-sm leading-relaxed flex-1">${escapeHTML(optText)}</span>
@@ -2569,25 +2542,55 @@
                 `;
               }).join('')}
             </div>
+
+            <!-- Single Question Check Bar -->
+            <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+              <div id="check-feedback-${q.id}" class="text-xs font-semibold">
+                ${
+                  isChecked
+                    ? (selectedOpt === q.answer
+                        ? '<span class="text-emerald-700 inline-flex items-center gap-1">✓ Chính xác!</span>'
+                        : '<span class="text-rose-700 inline-flex items-center gap-1">✗ Chưa chính xác. Đáp án đúng là <strong>' + OPTION_LABELS[q.answer] + '</strong></span>')
+                    : ''
+                }
+              </div>
+              <button
+                type="button"
+                data-check-qid="${q.id}"
+                class="single-check-btn px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs ${
+                  isChecked
+                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed pointer-events-none'
+                    : (selectedOpt !== undefined
+                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer active:scale-[0.98]'
+                        : 'bg-slate-100 text-slate-400 cursor-not-allowed pointer-events-none')
+                }"
+              >
+                ${isChecked ? 'Đã kiểm tra' : 'Kiểm tra đáp án'}
+              </button>
+            </div>
           </article>
         `;
       });
 
       elQuestionsContainer.innerHTML = html;
 
-      // Render bảng điều hướng nhanh (Desktop & Mobile)
       const navButtonsHtml = questions.map(q => {
         const isAnswered = state.userAnswers[q.id] !== undefined;
+        const isChecked = state.checkedStatus[q.id] === true;
+        let navClass = 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-200';
+        if (isChecked) {
+          navClass = state.userAnswers[q.id] === q.answer
+            ? 'bg-emerald-600 text-white border-emerald-600'
+            : 'bg-rose-600 text-white border-rose-600';
+        } else if (isAnswered) {
+          navClass = 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700';
+        }
         return `
           <button
             type="button"
             data-jump-qid="${q.id}"
             title="Đi tới Câu ${escapeHTML(q.id)}"
-            class="nav-jump-btn h-9 rounded-lg text-xs font-semibold transition border flex items-center justify-center ${
-              isAnswered
-                ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700'
-                : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-200'
-            }"
+            class="nav-jump-btn h-9 rounded-lg text-xs font-semibold transition border flex items-center justify-center ${navClass}"
           >
             ${escapeHTML(q.id)}
           </button>
@@ -2600,7 +2603,6 @@
       updateProgressUI();
     }
 
-    /** Cập nhật thanh tiến độ & trạng thái nút điều hướng mà không cần render lại toàn bộ DOM */
     function updateProgressUI() {
       const questions = getActiveQuestions();
       const total = questions.length;
@@ -2622,7 +2624,6 @@
       elMobileDrawerProgress.textContent = `Đã chọn: ${answered} / ${total} (${percent}%)`;
     }
 
-    /** Cập nhật giao diện trực tiếp của một câu hỏi khi người dùng tích chọn */
     function updateQuestionSelectionUI(qid, selectedOptIdx) {
       const card = document.getElementById(`q-card-${qid}`);
       if (card) {
@@ -2640,17 +2641,76 @@
             circle.className = 'shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center mt-0.5 transition bg-slate-100 text-slate-600 border border-slate-300';
           }
         });
+
+        // Kích hoạt nút Kiểm tra đáp án của câu này
+        const checkBtn = card.querySelector('.single-check-btn');
+        if (checkBtn && !state.checkedStatus[qid]) {
+          checkBtn.className = 'single-check-btn px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer active:scale-[0.98]';
+        }
       }
 
-      // Cập nhật màu nút tương ứng ở cả desktop & mobile navigator
       document.querySelectorAll(`.nav-jump-btn[data-jump-qid="${qid}"]`).forEach(navBtn => {
-        navBtn.className = 'nav-jump-btn h-9 rounded-lg text-xs font-semibold transition border flex items-center justify-center bg-blue-600 text-white border-blue-600 hover:bg-blue-700';
+        if (!state.checkedStatus[qid]) {
+          navBtn.className = 'nav-jump-btn h-9 rounded-lg text-xs font-semibold transition border flex items-center justify-center bg-blue-600 text-white border-blue-600 hover:bg-blue-700';
+        }
       });
 
       updateProgressUI();
     }
 
-    /** Chấm điểm và hiển thị màn hình kết quả */
+    function checkSingleQuestion(qid) {
+      const q = ALL_QUESTIONS.find(item => item.id === qid);
+      if (!q || state.userAnswers[qid] === undefined) return;
+
+      state.checkedStatus[qid] = true;
+      const selectedOpt = state.userAnswers[qid];
+      const isCorrect = selectedOpt === q.answer;
+
+      const card = document.getElementById(`q-card-${qid}`);
+      if (card) {
+        const buttons = card.querySelectorAll('.option-btn');
+        buttons.forEach(btn => {
+          const optIdx = Number(btn.dataset.opt);
+          const circle = btn.querySelector('span');
+          const isSelected = optIdx === selectedOpt;
+
+          btn.classList.add('cursor-default', 'pointer-events-none');
+          btn.classList.remove('cursor-pointer', 'hover:bg-slate-50', 'hover:border-slate-300');
+
+          if (optIdx === q.answer) {
+            btn.className = 'option-btn w-full text-left p-3 sm:p-3.5 rounded-xl border transition flex items-start gap-3 cursor-default pointer-events-none bg-emerald-50 border-emerald-500 ring-1 ring-emerald-500 text-emerald-950 font-medium';
+            circle.className = 'shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center mt-0.5 transition bg-emerald-600 text-white';
+          } else if (isSelected && !isCorrect) {
+            btn.className = 'option-btn w-full text-left p-3 sm:p-3.5 rounded-xl border transition flex items-start gap-3 cursor-default pointer-events-none bg-rose-50 border-rose-400 ring-1 ring-rose-400 text-rose-950 font-medium';
+            circle.className = 'shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center mt-0.5 transition bg-rose-600 text-white';
+          } else {
+            btn.className = 'option-btn w-full text-left p-3 sm:p-3.5 rounded-xl border transition flex items-start gap-3 cursor-default pointer-events-none bg-slate-50 border-slate-200 text-slate-400 opacity-60';
+            circle.className = 'shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center mt-0.5 transition bg-slate-200 text-slate-400';
+          }
+        });
+
+        const feedbackDiv = document.getElementById(`check-feedback-${qid}`);
+        if (feedbackDiv) {
+          feedbackDiv.innerHTML = isCorrect
+            ? '<span class="text-emerald-700 inline-flex items-center gap-1 font-semibold">✓ Chính xác!</span>'
+            : `<span class="text-rose-700 inline-flex items-center gap-1 font-semibold">✗ Chưa chính xác. Đáp án đúng là <strong>${OPTION_LABELS[q.answer]}</strong></span>`;
+        }
+
+        const checkBtn = card.querySelector('.single-check-btn');
+        if (checkBtn) {
+          checkBtn.textContent = 'Đã kiểm tra';
+          checkBtn.className = 'single-check-btn px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs bg-slate-100 text-slate-400 cursor-not-allowed pointer-events-none';
+        }
+      }
+
+      // Cập nhật màu nút điều hướng nhanh
+      document.querySelectorAll(`.nav-jump-btn[data-jump-qid="${qid}"]`).forEach(navBtn => {
+        navBtn.className = isCorrect
+          ? 'nav-jump-btn h-9 rounded-lg text-xs font-semibold transition border flex items-center justify-center bg-emerald-600 text-white border-emerald-600'
+          : 'nav-jump-btn h-9 rounded-lg text-xs font-semibold transition border flex items-center justify-center bg-rose-600 text-white border-rose-600';
+      });
+    }
+
     function submitQuiz() {
       const questions = getActiveQuestions();
       const total = questions.length;
@@ -2678,7 +2738,6 @@
       const percent = total > 0 ? ((correctCount / total) * 100).toFixed(1) : '0.0';
       const chapterMeta = CHAPTERS.find(c => c.id === state.selectedChapter) || CHAPTERS[0];
 
-      // Cập nhật bảng tổng kết
       document.getElementById('result-scope-label').textContent = state.retryQuestionIds
         ? 'Kết quả lượt làm lại các câu sai'
         : `Kết quả: ${chapterMeta.shortName === 'Tất cả' ? 'Tất cả các bài (Bài 2 – Bài 11)' : chapterMeta.shortName}`;
@@ -2703,7 +2762,6 @@
         subtext.textContent = `Hãy xem kỹ đáp án của ${wrongOrUnansweredList.length} câu làm sai / chưa làm bên dưới rồi làm lại nhé.`;
       }
 
-      // Nút làm lại các câu sai
       const retryBtn = document.getElementById('retry-wrong-btn');
       const retryBtnText = document.getElementById('retry-wrong-btn-text');
       if (wrongOrUnansweredList.length > 0) {
@@ -2713,7 +2771,6 @@
         retryBtn.classList.add('hidden');
       }
 
-      // Render danh sách câu làm sai & chưa làm
       const wrongContainer = document.getElementById('wrong-questions-container');
       const wrongHeading = document.getElementById('wrong-list-heading');
 
@@ -2794,7 +2851,6 @@
         }).join('');
       }
 
-      // Chuyển sang màn hình kết quả
       elQuizView.classList.add('hidden');
       elResultsView.classList.remove('hidden');
       elHeaderSubmitBtn.classList.add('hidden');
@@ -2806,7 +2862,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /** Chuyển về chế độ làm bài */
     function showQuizMode() {
       state.isSubmitted = false;
       elResultsView.classList.add('hidden');
@@ -2820,7 +2875,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /** Xử lý khi người dùng bấm Nộp bài */
     function handleSubmitRequest() {
       const questions = getActiveQuestions();
       const total = questions.length;
@@ -2833,7 +2887,7 @@
       if (unanswered > 0) {
         openConfirmModal(
           'Bạn vẫn còn câu chưa làm',
-          `Bạn mới chọn ${answered}/${total} câu (còn ${unanswered} câu chưa chọn đáp án). Bạn có chắc chắn muốn nộp bài ngay bây giờ không?`,
+          `Bạn mới chọn ${answered}/${total} câu (còn ${unanswered} câu chưa chọn đáp án). Bạn có chắc chắn muốn nộp bài tổng kết ngay bây giờ không?`,
           'Vẫn nộp bài',
           () => {
             closeMobileDrawer();
@@ -2846,7 +2900,6 @@
       }
     }
 
-    /** Đóng / mở drawer điều hướng trên điện thoại */
     function openMobileDrawer() {
       elMobileNavDrawer.classList.remove('hidden');
       document.body.classList.add('overflow-hidden');
@@ -2857,23 +2910,17 @@
       document.body.classList.remove('overflow-hidden');
     }
 
-    /** Nhảy tới một câu hỏi cụ thể */
     function jumpToQuestion(qid) {
       closeMobileDrawer();
       const target = document.getElementById(`q-card-${qid}`);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'center' });
         target.classList.remove('jump-highlight');
-        void target.offsetWidth; // trigger reflow
+        void target.offsetWidth;
         target.classList.add('jump-highlight');
       }
     }
 
-    // =========================================================================
-    // GẮN SỰ KIỆN
-    // =========================================================================
-
-    // Chọn bộ lọc bài học
     elFilterBar.addEventListener('click', (e) => {
       const btn = e.target.closest('.chapter-tab');
       if (!btn) return;
@@ -2883,17 +2930,26 @@
       showQuizMode();
     });
 
-    // Tích chọn đáp án câu hỏi (event delegation)
     elQuestionsContainer.addEventListener('click', (e) => {
-      const btn = e.target.closest('.option-btn');
-      if (!btn || state.isSubmitted) return;
-      const qid = btn.dataset.qid;
-      const optIdx = Number(btn.dataset.opt);
-      state.userAnswers[qid] = optIdx;
-      updateQuestionSelectionUI(qid, optIdx);
+      const optionBtn = e.target.closest('.option-btn');
+      if (optionBtn && !state.isSubmitted) {
+        const qid = optionBtn.dataset.qid;
+        if (state.checkedStatus[qid]) return; // Nếu đã check rồi thì không cho đổi
+        const optIdx = Number(optionBtn.dataset.opt);
+        state.userAnswers[qid] = optIdx;
+        updateQuestionSelectionUI(qid, optIdx);
+        return;
+      }
+
+      const checkBtn = e.target.closest('.single-check-btn');
+      if (checkBtn && !state.isSubmitted) {
+        const qid = checkBtn.dataset.checkQid;
+        checkSingleQuestion(qid);
+        updateProgressUI();
+        return;
+      }
     });
 
-    // Nhảy nhanh câu hỏi trên Desktop & Mobile
     elDesktopNavGrid.addEventListener('click', (e) => {
       const btn = e.target.closest('.nav-jump-btn');
       if (btn) jumpToQuestion(btn.dataset.jumpQid);
@@ -2904,13 +2960,11 @@
       if (btn) jumpToQuestion(btn.dataset.jumpQid);
     });
 
-    // Các nút Nộp bài
     document.getElementById('header-submit-btn').addEventListener('click', handleSubmitRequest);
     document.getElementById('bottom-submit-btn').addEventListener('click', handleSubmitRequest);
     document.getElementById('sidebar-submit-btn').addEventListener('click', handleSubmitRequest);
     document.getElementById('mobile-drawer-submit-btn').addEventListener('click', handleSubmitRequest);
 
-    // Nút Làm lại từ đầu (trong lúc làm bài)
     document.getElementById('reset-quiz-btn').addEventListener('click', () => {
       const questions = getActiveQuestions();
       const hasAnyAnswer = questions.some(q => state.userAnswers[q.id] !== undefined);
@@ -2918,11 +2972,12 @@
 
       openConfirmModal(
         'Làm lại từ đầu?',
-        'Toàn bộ các đáp án bạn đã chọn trong danh sách câu hỏi hiện tại sẽ bị xóa để bạn làm lại.',
+        'Toàn bộ các đáp án và trạng thái kiểm tra trong danh sách câu hỏi hiện tại sẽ bị xóa để bạn làm lại từ đầu.',
         'Xóa & Làm lại',
         () => {
           questions.forEach(q => {
             delete state.userAnswers[q.id];
+            delete state.checkedStatus[q.id];
           });
           renderQuiz();
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2930,39 +2985,35 @@
       );
     });
 
-    // Nút Làm lại các câu sai (ở màn hình kết quả)
     document.getElementById('retry-wrong-btn').addEventListener('click', () => {
       if (!state.lastWrongIds.length) return;
       state.retryQuestionIds = [...state.lastWrongIds];
-      // Xóa đáp án cũ của các câu cần làm lại
       state.retryQuestionIds.forEach(id => {
         delete state.userAnswers[id];
+        delete state.checkedStatus[id];
       });
       showQuizMode();
     });
 
-    // Nút Làm lại từ đầu (ở màn hình kết quả)
     document.getElementById('result-restart-btn').addEventListener('click', () => {
       state.retryQuestionIds = null;
       const questions = getActiveQuestions();
       questions.forEach(q => {
         delete state.userAnswers[q.id];
+        delete state.checkedStatus[q.id];
       });
       showQuizMode();
     });
 
-    // Nút thoát chế độ làm lại câu sai
     document.getElementById('exit-retry-btn').addEventListener('click', () => {
       state.retryQuestionIds = null;
       showQuizMode();
     });
 
-    // Mobile drawer controls
     elMobileNavToggle.addEventListener('click', openMobileDrawer);
     elMobileNavClose.addEventListener('click', closeMobileDrawer);
     elMobileNavBackdrop.addEventListener('click', closeMobileDrawer);
 
-    // Confirm modal controls
     elConfirmModalCancel.addEventListener('click', closeConfirmModal);
     elConfirmModalBackdrop.addEventListener('click', closeConfirmModal);
     elConfirmModalOk.addEventListener('click', () => {
@@ -2971,7 +3022,6 @@
       if (typeof cb === 'function') cb();
     });
 
-    // Khởi tạo ứng dụng
     renderFilterBar();
     renderQuiz();
   </script>
